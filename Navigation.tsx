@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import EditorScreen from "./screens/EditorScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -26,7 +27,7 @@ const AppStack = createStackNavigator<AppStackParamList>();
 const LoginStack = createStackNavigator<LoginStackParamList>();
 
 export default function Navigation() {
-  const { isLogged } = useContext(IsLoggedContext);
+  const { isLogged, setIsLogged } = useContext(IsLoggedContext);
   const checkLoginStatus = () => {
     if (isLogged) {
       return true;
@@ -34,6 +35,23 @@ export default function Navigation() {
       return false;
     }
   };
+
+  // const checkToken = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem("token");
+  //     if (token) {
+  //       setIsLogged(true);
+  //     } else {
+  //       setIsLogged(false);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   checkToken();
+  // }, []);
 
   return (
     <>
@@ -58,7 +76,6 @@ export default function Navigation() {
               />
             </AppStack.Navigator>
           </View>
-         
         </>
       ) : (
         <LoginStack.Navigator initialRouteName="LoginScreen">

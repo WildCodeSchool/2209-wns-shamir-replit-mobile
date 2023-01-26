@@ -9,17 +9,32 @@ import React, { useContext, useState } from "react";
 import IsLoggedContext from "../contexts/isLoggedContext";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authAPI } from "../api/authAPI";
 
 type Props = StackScreenProps<LoginStackParamList, "LoginScreen">;
 
 const LoginScreen = ({ navigation }: Props) => {
   const { isLogged, setIsLogged } = useContext(IsLoggedContext);
 
-  const [feildMail, setFeildMail] = useState("");
-  const [feildPassword, setFeildPassword] = useState("");
-  const handlePress = () => {
-    // setIsLogged(true);
-    console.log("logged");
+  const [fieldMail, setFieldMail] = useState("");
+  const [fieldPassword, setFieldPassword] = useState("");
+  const [formErrors, setFormErrors] = useState(false);
+
+  const handleConnect = async () => {
+    try {
+      if (!fieldMail || !fieldPassword) {
+        return setFormErrors(true);
+      }
+      const token = await authAPI.connect({
+        email: fieldMail,
+        password: fieldPassword,
+      });
+      await AsyncStorage.setItem("token", token);
+      setIsLogged(true);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const goNav = (nav: keyof LoginStackParamList) => {
@@ -30,20 +45,20 @@ const LoginScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <Text style={styles.title}>LoginScreen</Text>
       <TextInput
-        style={styles.inputfeilds}
-        onChangeText={setFeildMail}
+        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        onChangeText={setFieldMail}
         placeholder="Enter your mail"
-        value={feildMail}
+        value={fieldMail}
         keyboardType="email-address"
       />
       <TextInput
-        style={styles.inputfeilds}
-        onChangeText={setFeildPassword}
+        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        onChangeText={setFieldPassword}
         placeholder="Enter your password"
-        value={feildPassword}
+        value={fieldPassword}
         secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.submitButton} onPress={handlePress}>
+      <TouchableOpacity style={styles.submitButton} onPress={handleConnect}>
         <Text style={{ fontSize: 15 }}>Connection</Text>
       </TouchableOpacity>
       <Text style={styles.text}>
@@ -52,7 +67,7 @@ const LoginScreen = ({ navigation }: Props) => {
           style={{ textDecorationLine: "underline" }}
           onPress={() => goNav("RegisterScreen")}
         >
-        {" "}
+          {" "}
           clique ici
         </Text>
       </Text>
@@ -82,13 +97,22 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignSelf: "center",
   },
-  inputfeilds: {
+  inputfields: {
     fontSize: 20,
     height: 50,
     borderWidth: 1,
     marginBottom: 20,
     borderRadius: 5,
     padding: 10,
+  },
+  inputfieldsError: {
+    fontSize: 20,
+    height: 50,
+    borderWidth: 1,
+    marginBottom: 20,
+    borderRadius: 5,
+    padding: 10,
+    borderColor: "red",
   },
   submitButton: {
     alignItems: "center",

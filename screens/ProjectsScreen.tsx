@@ -3,7 +3,8 @@ import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
@@ -15,6 +16,7 @@ type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 const ProjectsScreen = ({ navigation }: Props) => {
   const [searchText, setSearchText] = useState("");
+  
   return (
     <LayoutApp navigation={navigation}>
       <View style={styles.container}>

@@ -8,6 +8,6 @@ export type IUser = {
 
 export type CreateUser = {
   email: string;
-  login: string;
+ login: string;
   password: string;
 };
