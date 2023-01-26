@@ -1,20 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { IsLoggedContextProvider } from "./contexts/isLoggedContext";
+import { NavigationContainer } from "@react-navigation/native";
+
+import Navigation from "./Navigation";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <IsLoggedContextProvider>
+      <NavigationContainer>
+        <Navigation />
+      </NavigationContainer>
+    </IsLoggedContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
