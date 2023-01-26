@@ -9,12 +9,25 @@ import { useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
+import { authAPI } from "../api/authAPI";
+import { CreateUser } from "../interfaces/iUser";
 
 type Props = StackScreenProps<LoginStackParamList, "RegisterScreen">;
 
 const RegisterScreen = ({ navigation }: Props) => {
   const [feildMail, setFeildMail] = useState("");
+  const [feildLogin, setFeildLogin] = useState("");
   const [feildPassword, setFeildPassword] = useState("");
+
+  const handleRegister = async () => {
+    const user: CreateUser = {
+      email: feildMail,
+      login: feildLogin,
+      password: feildPassword,
+    };
+    const result = await authAPI.createUser(user);
+    console.log("result",result)
+  };
 
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
@@ -31,18 +44,30 @@ const RegisterScreen = ({ navigation }: Props) => {
       />
       <TextInput
         style={styles.inputfeilds}
+        onChangeText={setFeildLogin}
+        placeholder="Enter your login"
+        value={feildLogin}
+      />
+      <TextInput
+        style={styles.inputfeilds}
         onChangeText={setFeildPassword}
         placeholder="Enter your password"
         value={feildPassword}
         secureTextEntry={true}
       />
 
-      <TouchableOpacity style={styles.submitButton}>
-        <Text style={{ fontSize: 15 }}>Connection</Text>
+      <TouchableOpacity onPress={handleRegister} style={styles.submitButton}>
+        <Text style={{ fontSize: 15 }}>Envoyer</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => goNav("LoginScreen")}>
-        <Text>Déjà inscrit ? clique là</Text>
-      </TouchableOpacity>
+      <Text style={styles.text}>
+        Déjà inscrit ?{" "}
+        <Text
+          onPress={() => goNav("LoginScreen")}
+          style={{ textDecorationLine: "underline" }}
+        >
+          clique là
+        </Text>
+      </Text>
     </View>
   );
 };
