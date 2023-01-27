@@ -8,13 +8,17 @@ type LoadTokenProps = {
 
 export const authAPI = {
   connect: async ({ email, password }: LoadTokenProps) => {
-    const { data, error } = await api.query({
-      query: authRequest.GET_TOKEN,
-      variables: {
-        password,
-        email,
-      },
-    });
-    return data.getToken;
+    try{
+      const { data } = await api.query({
+        query: authRequest.GET_TOKEN,
+        variables: {
+          password,
+          email,
+        },
+      });
+      return data.getToken;
+    }catch(err){
+      console.log("err connect",err);
+    }
   },
 };

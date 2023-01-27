@@ -19,20 +19,27 @@ const LoginScreen = ({ navigation }: Props) => {
 
   const [fieldMail, setFieldMail] = useState("");
   const [fieldPassword, setFieldPassword] = useState("");
-  const [formErrors, setFormErrors] = useState(false);
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
 
   const handleConnect = async () => {
     try {
-      if (!fieldMail || !fieldPassword) {
-        return setFormErrors(true);
+      setEmailErrors(fieldMail.length > 0 ? false : true);
+      setPasswordErrors(fieldPassword.length > 0 ? false : true);
+
+      if (fieldMail && fieldPassword) {
+        const result = await authAPI.connect({
+          email: fieldMail,
+          password: fieldPassword,
+        });
+        if (result !== undefined) {
+          await AsyncStorage.setItem("token", result);
+          setIsLogged(true);
+        } else {
+          setEmailErrors(true);
+          setPasswordErrors(true);
+        }
       }
-      setFormErrors(false)
-      const token = await authAPI.connect({
-        email: fieldMail,
-        password: fieldPassword,
-      });
-      await AsyncStorage.setItem("token", token);
-      setIsLogged(true);
     } catch (e) {
       console.error(e);
     }
@@ -41,7 +48,6 @@ const LoginScreen = ({ navigation }: Props) => {
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
   };
-
 
   const checkToken = async () => {
     try {
@@ -64,14 +70,14 @@ const LoginScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <Text style={styles.title}>LoginScreen</Text>
       <TextInput
-        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        style={emailErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldMail}
         placeholder="Enter your mail"
         value={fieldMail}
         keyboardType="email-address"
       />
       <TextInput
-        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        style={passwordErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldPassword}
         placeholder="Enter your password"
         value={fieldPassword}
