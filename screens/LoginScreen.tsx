@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import IsLoggedContext from "../contexts/isLoggedContext";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
@@ -26,6 +26,7 @@ const LoginScreen = ({ navigation }: Props) => {
       if (!fieldMail || !fieldPassword) {
         return setFormErrors(true);
       }
+      setFormErrors(false)
       const token = await authAPI.connect({
         email: fieldMail,
         password: fieldPassword,
@@ -40,6 +41,24 @@ const LoginScreen = ({ navigation }: Props) => {
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
   };
+
+
+  const checkToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <View style={styles.container}>

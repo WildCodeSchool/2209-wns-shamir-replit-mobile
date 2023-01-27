@@ -15,7 +15,6 @@ export const authAPI = {
         email,
       },
     });
-    console.log("data:", data, "error:", error);
     return data.getToken;
   },
 };

@@ -20,6 +20,9 @@ const RegisterScreen = ({ navigation }: Props) => {
   const [fieldPassword, setFieldPassword] = useState("");
   const [formErrors, setFormErrors] = useState(false);
 
+  const goNav = (nav: keyof LoginStackParamList) => {
+    navigation.navigate(nav);
+  };
   const handleRegister = async () => {
     if (!fieldMail || !fieldLogin || !fieldPassword) {
       return setFormErrors(true);
@@ -31,12 +34,9 @@ const RegisterScreen = ({ navigation }: Props) => {
       password: fieldPassword,
     };
     const result = await userAPI.createUser(user);
-    console.log("result", result);
+    goNav("LoginScreen");
   };
 
-  const goNav = (nav: keyof LoginStackParamList) => {
-    navigation.navigate(nav);
-  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inscription</Text>
