@@ -18,43 +18,64 @@ const RegisterScreen = ({ navigation }: Props) => {
   const [fieldMail, setFieldMail] = useState("");
   const [fieldLogin, setFieldLogin] = useState("");
   const [fieldPassword, setFieldPassword] = useState("");
-  const [formErrors, setFormErrors] = useState(false);
+
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [loginErrors, setLoginErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
 
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
   };
-  const handleRegister = async () => {
-    if (!fieldMail || !fieldLogin || !fieldPassword) {
-      return setFormErrors(true);
+
+  const verifyForm = () => {
+    const verifMail = fieldMail.match(
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    );
+    const verifLogin = fieldLogin.match(/^[a-zA-Z0-9_\-]{3,15}$/);
+    const verifPassword = fieldPassword.match(
+      /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
+    );
+    setEmailErrors(verifMail === null);
+    setLoginErrors(verifLogin === null);
+    setPasswordErrors(verifPassword === null);
+
+    if (!verifMail || !verifLogin || !verifPassword) {
+      return false;
     }
-    setFormErrors(false);
-    const user: CreateUser = {
-      email: fieldMail,
-      login: fieldLogin,
-      password: fieldPassword,
-    };
-    const result = await userAPI.createUser(user);
-    goNav("LoginScreen");
+
+    return true;
+  };
+  const handleRegister = async () => {
+    const isValidForm = verifyForm();
+    if (isValidForm) {
+      const user: CreateUser = {
+        email: fieldMail,
+        login: fieldLogin,
+        password: fieldPassword,
+      };
+      const result = await userAPI.createUser(user);
+      goNav("LoginScreen");
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inscription</Text>
       <TextInput
-        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        style={emailErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldMail}
         placeholder="Enter your mail"
         value={fieldMail}
         keyboardType="email-address"
       />
       <TextInput
-        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        style={loginErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldLogin}
         placeholder="Enter your login"
         value={fieldLogin}
       />
       <TextInput
-        style={formErrors ? styles.inputfieldsError : styles.inputfields}
+        style={passwordErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldPassword}
         placeholder="Enter your password"
         value={fieldPassword}
