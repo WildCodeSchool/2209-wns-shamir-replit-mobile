@@ -1,3 +1,4 @@
+// Ce fichier contient toutes les requêtes et mutations liées à l'utilisateur
 import { gql } from "@apollo/client";
 
 const userRequest = {

@@ -1,3 +1,4 @@
+// Description: Zone de code pour l'éditeur
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 

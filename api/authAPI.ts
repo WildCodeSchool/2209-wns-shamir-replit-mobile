@@ -1,3 +1,5 @@
+// Fichier d'API pour la gestion de l'authentification
+
 import { api } from "./_graphQL";
 import { authRequest } from "./authRequest";
 

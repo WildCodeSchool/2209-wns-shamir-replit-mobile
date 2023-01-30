@@ -1,3 +1,4 @@
+// Description: API for user
 import { CreateUser, IUser } from "../interfaces/iUser";
 import { userRequest } from "./userRequest";
 import { api } from "./_graphQL";

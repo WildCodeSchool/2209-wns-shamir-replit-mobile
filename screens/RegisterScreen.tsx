@@ -38,6 +38,7 @@ const RegisterScreen = ({ navigation }: Props) => {
     setEmailErrors(verifMail === null);
     setLoginErrors(verifLogin === null);
     setPasswordErrors(verifPassword === null);
+    console.log(verifMail, verifLogin, verifPassword)
 
     if (!verifMail || !verifLogin || !verifPassword) {
       return false;
@@ -53,7 +54,7 @@ const RegisterScreen = ({ navigation }: Props) => {
         login: fieldLogin,
         password: fieldPassword,
       };
-      const result = await userAPI.createUser(user);
+      await userAPI.createUser(user);
       goNav("LoginScreen");
     }
   };

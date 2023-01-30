@@ -1,3 +1,4 @@
+// Description: This screen is the main screen of the app. It contains the categories of projects and the search bar.
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
