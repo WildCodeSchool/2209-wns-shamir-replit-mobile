@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import EditorScreen from "./screens/EditorScreen";

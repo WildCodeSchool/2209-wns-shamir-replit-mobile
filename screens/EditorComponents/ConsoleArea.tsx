@@ -1,3 +1,4 @@
+// Zone de la console pour l'editeur
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 

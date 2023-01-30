@@ -1,3 +1,4 @@
+// Ce fichier est utilisé pour afficher le header de l'application
 import {
   StyleSheet,
   Text,

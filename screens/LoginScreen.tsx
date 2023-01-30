@@ -1,3 +1,4 @@
+// Description: Login screen
 import {
   StyleSheet,
   Text,

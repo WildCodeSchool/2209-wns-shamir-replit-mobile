@@ -1,3 +1,4 @@
+// Description: Layout de l'application contenant le header et le menu flottant
 import { StyleSheet, Text, View } from "react-native";
 import { ReactNode } from "react";
 import { Header } from "./Header";

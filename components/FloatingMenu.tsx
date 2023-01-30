@@ -1,3 +1,4 @@
+// Description: Floating menu pour l'écran d'accueil (bouton editeur et projet)
 import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";

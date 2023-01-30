@@ -1,3 +1,4 @@
+// Description: List des projets avec les catégories (perso, partagé, public)
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
