@@ -17,6 +17,8 @@ export const userAPI = {
       })
     ).data.createUser as IUser;
 
+    console.log("user ", user);
+
     return { ...newUser, id: newUser.id.toString() };
   },
 };

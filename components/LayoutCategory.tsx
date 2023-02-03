@@ -11,10 +11,12 @@ type Category = {
 
 type Props = {
   name: string;
+  isVisible: boolean;
+  setIsVisible: (value: boolean) => void;
 };
 
-const LayoutCategory = ({ name }: Props) => {
-  const [isVisible, setIsVisible] = useState(true);
+const LayoutCategory = ({ name, isVisible, setIsVisible }: Props) => {
+  // const [isVisible, setIsVisible] = useState(true);
 
   const toggleCategoryVisibility = () => {
     setIsVisible(!isVisible);
