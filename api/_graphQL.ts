@@ -17,7 +17,6 @@ const useUrl =
     ? backUrl
     : defaultBackUrl;
 
-
 // On initialise Apollo Client
 const params: ApolloClientOptions<unknown> = {
   uri: `${useUrl}/graphql`,
@@ -30,6 +29,7 @@ const getToken = async () => {
 };
 
 const token = getToken();
+console.log("youhou", token);
 
 // On ajoute le token dans les headers de la requête
 if (token) params.headers = { Authorization: "Bearer " + token };

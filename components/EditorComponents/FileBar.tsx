@@ -2,10 +2,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const FileBar = () => {
+type Props = {
+  isFocus :boolean;
+}
+
+const FileBar = ({isFocus}: Props) => {
   return (
     <View style={styles.container}>
-      <Text>FileBar</Text>
+      <Text>FileBar, {isFocus}</Text>
     </View>
   );
 };
