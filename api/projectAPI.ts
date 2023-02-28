@@ -34,7 +34,7 @@ export const projectAPI = {
           }
         `,
       })
-    ).data.getPublicProjects;
+    ).data.getPublicProjects as IProject[];
     return projects;
   },
 };

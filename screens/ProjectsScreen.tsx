@@ -43,7 +43,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
     console.log("projetpublic", publics);
   };
 
-  getPublicProjects();
+  // getPublicProjects();
 
   useEffect(() => {
     console.log("ca passe ici ");
