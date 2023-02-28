@@ -4,8 +4,7 @@ import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
 
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
@@ -17,7 +16,7 @@ type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 const ProjectsScreen = ({ navigation }: Props) => {
   const [searchText, setSearchText] = useState("");
-  
+
   return (
     <LayoutApp navigation={navigation}>
       <View style={styles.container}>
@@ -38,16 +37,18 @@ const ProjectsScreen = ({ navigation }: Props) => {
 
 export default ProjectsScreen;
 
+const colorBg = "#F5FCFF";
+
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colorBg,
     flex: 1,
-    backgroundColor: "#F5FCFF",
   },
   searchInput: {
+    borderRadius: 10,
+    borderWidth: 1,
     height: 40,
     margin: 12,
-    borderWidth: 1,
-    borderRadius: 10,
     padding: 10,
   },
 });

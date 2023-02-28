@@ -24,9 +24,7 @@ const params: ApolloClientOptions<unknown> = {
 };
 
 // On récupère le token de l'utilisateur
-const getToken = async () => {
-  return await AsyncStorage.getItem("token");
-};
+const getToken = async () => await AsyncStorage.getItem("token");
 
 const token = getToken();
 console.log("youhou", token);

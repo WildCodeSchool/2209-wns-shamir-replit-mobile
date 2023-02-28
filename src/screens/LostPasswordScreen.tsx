@@ -11,6 +11,7 @@ const LostPasswordScreen = ({ navigation }: Props) => {
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
   };
+
   return (
     <View style={styles.container}>
       <Text>LostPasswordScreen</Text>

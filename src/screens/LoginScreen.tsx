@@ -1,3 +1,4 @@
+// Description: Login screen
 import {
   StyleSheet,
   Text,
@@ -5,63 +6,70 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import IsLoggedContext from "../contexts/isLoggedContext";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
-import { userAPI } from "../api/userAPI";
-import { CreateUser } from "../interfaces/iUser";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authAPI } from "../api/authAPI";
 
-type Props = StackScreenProps<LoginStackParamList, "RegisterScreen">;
+type Props = StackScreenProps<LoginStackParamList, "LoginScreen">;
 
-const RegisterScreen = ({ navigation }: Props) => {
+const LoginScreen = ({ navigation }: Props) => {
+  const { setIsLogged } = useContext(IsLoggedContext);
+
   const [fieldMail, setFieldMail] = useState("");
-  const [fieldLogin, setFieldLogin] = useState("");
   const [fieldPassword, setFieldPassword] = useState("");
-
   const [emailErrors, setEmailErrors] = useState(false);
-  const [loginErrors, setLoginErrors] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState(false);
+
+  const handleConnect = async () => {
+    try {
+      setEmailErrors(fieldMail.length > 0 ? false : true);
+      setPasswordErrors(fieldPassword.length > 0 ? false : true);
+
+      if (fieldMail && fieldPassword) {
+        const result = await authAPI.connect({
+          email: fieldMail,
+          password: fieldPassword,
+        });
+        if (result !== undefined) {
+          await AsyncStorage.setItem("token", result);
+          setIsLogged(true);
+        } else {
+          setEmailErrors(true);
+          setPasswordErrors(true);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const goNav = (nav: keyof LoginStackParamList) => {
     navigation.navigate(nav);
   };
 
-  const verifyForm = () => {
-    const verifMail = fieldMail.match(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    );
-    const verifLogin = fieldLogin.match(/^[a-zA-Z0-9_\-]{3,15}$/);
-    const verifPassword = fieldPassword.match(
-      /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
-    );
-    setEmailErrors(verifMail === null);
-    setLoginErrors(verifLogin === null);
-    setPasswordErrors(verifPassword === null);
-    console.log(verifMail, verifLogin, verifPassword)
-
-    if (!verifMail || !verifLogin || !verifPassword) {
-      return false;
-    }
-
-    return true;
-  };
-  const handleRegister = async () => {
-    const isValidForm = verifyForm();
-    if (isValidForm) {
-      const user: CreateUser = {
-        email: fieldMail,
-        login: fieldLogin,
-        password: fieldPassword,
-      };
-      await userAPI.createUser(user);
-      goNav("LoginScreen");
+  const checkToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Inscription</Text>
+      <Text style={styles.title}>LoginScreen</Text>
       <TextInput
         style={emailErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldMail}
@@ -70,28 +78,32 @@ const RegisterScreen = ({ navigation }: Props) => {
         keyboardType="email-address"
       />
       <TextInput
-        style={loginErrors ? styles.inputfieldsError : styles.inputfields}
-        onChangeText={setFieldLogin}
-        placeholder="Enter your login"
-        value={fieldLogin}
-      />
-      <TextInput
         style={passwordErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldPassword}
         placeholder="Enter your password"
         value={fieldPassword}
         secureTextEntry={true}
       />
-
-      <TouchableOpacity onPress={handleRegister} style={styles.submitButton}>
-        <Text style={{ fontSize: 15 }}>Envoyer</Text>
+      <TouchableOpacity style={styles.submitButton} onPress={handleConnect}>
+        <Text style={{ fontSize: 15 }}>Connection</Text>
       </TouchableOpacity>
       <Text style={styles.text}>
-        Déjà inscrit ?{" "}
+        Pas encore inscrit ?
         <Text
-          onPress={() => goNav("LoginScreen")}
           style={{ textDecorationLine: "underline" }}
+          onPress={() => goNav("RegisterScreen")}
         >
+          {" "}
+          clique ici
+        </Text>
+      </Text>
+      <Text style={styles.text}>
+        Mot de passe oublié ?{" "}
+        <Text
+          style={{ textDecorationLine: "underline" }}
+          onPress={() => goNav("LostPasswordScreen")}
+        >
+          {" "}
           clique là
         </Text>
       </Text>
@@ -99,7 +111,7 @@ const RegisterScreen = ({ navigation }: Props) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,5 +1,5 @@
 // Description: Zone de code pour l'éditeur
-import { StyleSheet, TouchableOpacity, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import CodeEditor, {
   CodeEditorSyntaxStyles,
 } from "@rivascva/react-native-code-editor";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const CodeArea = ({ isFocus }: Props) => {
-  const code: string = `
+  const code = `
   const RegisterScreen = ({ navigation }: Props) => {
     const [fieldMail, setFieldMail] = useState("");
     const [fieldLogin, setFieldLogin] = useState("");
@@ -26,10 +26,7 @@ const CodeArea = ({ isFocus }: Props) => {
     };
   
     const verifyForm = () => {
-      const verifMail = fieldMail.match(
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-      );
-      const verifLogin = fieldLogin.match(/^[a-zA-Z0-9_\-]{3,15}$/);
+      
       const verifPassword = fieldPassword.match(
         /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
       );
@@ -101,11 +98,7 @@ const CodeArea = ({ isFocus }: Props) => {
   return (
     <ScrollView style={styles.container}>
       <CodeEditor
-        style={{
-          fontSize: 18,
-          inputLineHeight: 30,
-          highlighterLineHeight: 30,
-        }}
+        style={styles.editorBody}
         language="javascript"
         syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
         showLineNumbers
@@ -118,9 +111,16 @@ const CodeArea = ({ isFocus }: Props) => {
 
 export { CodeArea };
 
+const colorBlue = "blue";
+
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colorBlue,
     flex: 7,
-    backgroundColor: "blue",
+  },
+  editorBody: {
+    fontSize: 18,
+    highlighterLineHeight: 30,
+    inputLineHeight: 30,
   },
 });

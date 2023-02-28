@@ -1,6 +1,7 @@
 import { IsLoggedContextProvider } from "./contexts/isLoggedContext";
 import { NavigationContainer } from "@react-navigation/native";
 import Constants from "expo-constants";
+import React from "react";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 

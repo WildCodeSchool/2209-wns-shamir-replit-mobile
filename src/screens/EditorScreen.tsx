@@ -1,6 +1,6 @@
 // Description: Composant parent de l'éditeur de code
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useState } from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
@@ -33,7 +33,7 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
         style={isFocus ? styles.openContainer : styles.container}
         onPress={() => changeFocus(true)}
       >
-        <ConsoleArea isFocus={isFocus} />
+        <ConsoleArea />
       </TouchableOpacity>
     </LayoutApp>
   );
