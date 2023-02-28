@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
