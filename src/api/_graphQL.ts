@@ -11,14 +11,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // On defini l'url de l'api en fonction de l'environnement
 const defaultBackUrl = "http://localhost:5000";
 const backUrl = `http://${Constants?.manifest?.extra?.BACK_URL}:${Constants?.manifest?.extra?.BACK_PORT}`;
-console.log([backUrl]);
 
 // Ternaire pour définir l'url de l'api avec les variables d'environnement
 const useUrl =
   Constants?.manifest?.extra?.BACK_URL && Constants?.manifest?.extra?.BACK_PORT
     ? backUrl
     : defaultBackUrl;
-console.log("useUrl", useUrl);
 const defaultOptions: DefaultOptions = {
   watchQuery: {
     fetchPolicy: "no-cache",
@@ -41,7 +39,6 @@ const params: ApolloClientOptions<unknown> = {
 const getToken = async () => await AsyncStorage.getItem("token");
 
 const token = getToken();
-console.log("youhou", token);
 
 // On ajoute le token dans les headers de la requête
 if (token) params.headers = { Authorization: "Bearer " + token };

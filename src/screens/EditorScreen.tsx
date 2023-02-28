@@ -14,7 +14,6 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   const [isFocus, setIsFocus] = useState<boolean>(true);
 
   const changeFocus = (value: boolean) => {
-    console.log(value);
     if (value !== isFocus) {
       setIsFocus(value);
     }

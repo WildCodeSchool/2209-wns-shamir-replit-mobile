@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -12,26 +12,20 @@ type Props = {
   data: IProject[];
 };
 
-const ProjectList = ({ data }: Props) => {
-  useEffect(() => {
-    console.log("projectList", data);
-  }, []);
-
-  return (
-    <>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <TouchableHighlight key={item.id}>
-            <View style={styles.viewBox}>
-              <Text>{item.name}</Text>
-            </View>
-          </TouchableHighlight>
-        )}
-      />
-    </>
-  );
-};
+const ProjectList = ({ data }: Props) => (
+  <>
+    <FlatList
+      data={data}
+      renderItem={({ item }) => (
+        <TouchableHighlight key={item.id}>
+          <View style={styles.viewBox}>
+            <Text>{item.name}</Text>
+          </View>
+        </TouchableHighlight>
+      )}
+    />
+  </>
+);
 
 const colorWhite = "white";
 

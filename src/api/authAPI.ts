@@ -18,9 +18,9 @@ export const authAPI = {
           email,
         },
       });
-      return data.getToken;
+      return JSON.parse(data.getToken);
     } catch (err) {
-      console.log("err connect", err);
+      console.error("err connect", err);
     }
   },
 };

@@ -27,7 +27,6 @@ const ProjectsScreen = ({ navigation }: Props) => {
 
   const GetProjectById = async () => {
     const userId = await AsyncStorage.getItem("userId");
-    console.log(userId);
     if (userId != null) {
       const idUser = parseInt(userId, 10);
       setProjet(await projectAPI.getProjectByUserId(idUser));
@@ -38,13 +37,11 @@ const ProjectsScreen = ({ navigation }: Props) => {
 
   const getPublicProjects = async () => {
     setPublic(await projectAPI.getPublicProjects());
-    console.log("projetpublic", publics);
   };
 
   // getPublicProjects();
 
   useEffect(() => {
-    console.log("ca passe ici ");
     GetProjectById();
     getPublicProjects();
   }, []);

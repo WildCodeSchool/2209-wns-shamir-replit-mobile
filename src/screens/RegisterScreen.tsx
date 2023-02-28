@@ -38,7 +38,6 @@ const RegisterScreen = ({ navigation }: Props) => {
     setEmailErrors(verifMail === null);
     setLoginErrors(verifLogin === null);
     setPasswordErrors(verifPassword === null);
-    console.log(verifMail, verifLogin, verifPassword);
 
     if (!verifMail || !verifLogin || !verifPassword) {
       return false;

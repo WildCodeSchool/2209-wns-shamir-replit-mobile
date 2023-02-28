@@ -17,7 +17,7 @@ const FloatingMenu = ({ goNav }: FloatingMenuProps) => {
     <>
       <TouchableOpacity
         onPress={() => handleNav("ProjectsScreen")}
-        style={(styles.container, styles.projetScreen)}
+        style={[styles.container, styles.projetScreen]}
       >
         <Ionicons
           name="folder-open-outline"
@@ -27,7 +27,7 @@ const FloatingMenu = ({ goNav }: FloatingMenuProps) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => handleNav("EditorScreen")}
-        style={(styles.container, styles.editorScreen)}
+        style={[styles.container, styles.editorScreen]}
       >
         <Ionicons
           name="create-outline"
