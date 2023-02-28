@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, ReactNode } from "react";
+import React, { createContext, useState, useMemo, ReactNode } from "react";
 
 type IsLoggedContextProviderProps = { children: ReactNode };
 type TypeContext = {
@@ -8,6 +8,7 @@ type TypeContext = {
 
 const IsLoggedContext = createContext<TypeContext>({
   isLogged: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsLogged: () => {},
 });
 

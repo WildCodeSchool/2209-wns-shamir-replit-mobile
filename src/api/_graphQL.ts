@@ -4,6 +4,7 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloClientOptions,
+  DefaultOptions,
 } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,18 +17,26 @@ const useUrl =
   Constants?.manifest?.extra?.BACK_URL && Constants?.manifest?.extra?.BACK_PORT
     ? backUrl
     : defaultBackUrl;
-
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "ignore",
+  },
+  query: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "all",
+  },
+};
 
 // On initialise Apollo Client
 const params: ApolloClientOptions<unknown> = {
   uri: `${useUrl}/graphql`,
   cache: new InMemoryCache(),
+  defaultOptions,
 };
 
 // On récupère le token de l'utilisateur
-const getToken = async () => {
-  return await AsyncStorage.getItem("token");
-};
+const getToken = async () => await AsyncStorage.getItem("token");
 
 const token = getToken();
 

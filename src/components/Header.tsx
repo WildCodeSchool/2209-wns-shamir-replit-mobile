@@ -7,12 +7,12 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import IsLoggedContext from "../contexts/isLoggedContext";
 const Header = () => {
- const { isLogged, setIsLogged } = useContext(IsLoggedContext);
+  const { setIsLogged } = useContext(IsLoggedContext);
 
   const [settingsVisible, setSettingsVisible] = useState(false);
   const handleLogout = async () => {
@@ -48,7 +48,7 @@ const Header = () => {
             />
             <Text style={styles.modalTitle}>Settings</Text>
             <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-              <Text style={{ color: "white", fontSize: 20 }}>Logout</Text>
+              <Text style={styles.logout}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -59,76 +59,65 @@ const Header = () => {
 
 export { Header };
 
+const colorRed = "red";
+const colorWhite = "white";
+const shadowColor = "#000";
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "flex-end",
-    backgroundColor: "red",
-    height: 100,
-    width: "100%",
-    top: 0,
-  },
-  icons: {
-    marginTop: 20,
-    marginRight: 10,
-  },
   centeredView: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     marginTop: 22,
   },
-  modalView: {
+  container: {
+    alignItems: "flex-end",
+    backgroundColor: colorRed,
+    height: 100,
+    justifyContent: "center",
+    top: 0,
     width: "100%",
+  },
+  iconModal: {
+    alignSelf: "flex-end",
+  },
+  icons: {
+    marginRight: 10,
+    marginTop: 20,
+  },
+  logout: { color: colorWhite, fontSize: 20 },
+  logoutBtn: {
+    alignItems: "center",
+    backgroundColor: colorRed,
+    borderRadius: 15,
+    bottom: 20,
+    height: 40,
+    justifyContent: "center",
+    position: "absolute",
+    width: "100%",
+  },
+  modalTitle: {
+    fontSize: 40,
+    marginBottom: 15,
+    position: "absolute",
+    textAlign: "center",
+    top: 15,
+  },
+
+  modalView: {
+    alignItems: "center",
+    backgroundColor: colorWhite,
+    borderRadius: 20,
+    elevation: 5,
     flex: 1,
     margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
     padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: shadowColor,
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalTitle: {
-    position: "absolute",
-    top: 15,
-    marginBottom: 15,
-    textAlign: "center",
-    fontSize: 40,
-  },
-  iconModal: {
-    alignSelf: "flex-end",
-  },
-  logoutBtn: {
-    position: "absolute",
-    bottom: 20,
-    backgroundColor: "red",
     width: "100%",
-    height: 40,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
