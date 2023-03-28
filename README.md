@@ -1,6 +1,13 @@
 # 2209-wns-shamir-replit-mobile
+
 ---
+
+## Gnos28 / Reenauud / Chap-fr / CyriacInfo
+
+---
+
 ## Install
+
 1 - Remplir le fichier .env
 
 2 - Install node_modules
@@ -12,16 +19,19 @@ npm i
 ## Start Project
 
 Start Expo serveur :
+
 ```bash
-npm start 
+npm start
 ```
 
 Start Linter :
+
 ```bash
-npm run lint 
+npm run lint
 ```
 
-Start Tests : 
+Start Tests :
+
 ```bash
-npm run test 
+npm run test
 ```
