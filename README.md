@@ -9,3 +9,19 @@
 npm i
 ```
 
+## Start Project
+
+Start Expo serveur :
+```bash
+npm start 
+```
+
+Start Linter :
+```bash
+npm run lint 
+```
+
+Start Tests : 
+```bash
+npm run test 
+```
