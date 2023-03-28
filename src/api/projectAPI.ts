@@ -4,7 +4,6 @@ import { gql } from "@apollo/client";
 
 export const projectAPI = {
   getProjectByUserId: async (userId: number): Promise<IProject[]> => {
-
     const api = await graphQlApi();
     const projects = (
       await api.query({
