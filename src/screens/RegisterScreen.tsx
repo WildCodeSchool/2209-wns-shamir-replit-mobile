@@ -53,7 +53,7 @@ const RegisterScreen = ({ navigation }: Props) => {
         login: fieldLogin,
         password: fieldPassword,
       };
-      console.log("user", user)
+      console.log("user", user);
       await userAPI.createUser(user);
       goNav("LoginScreen");
     }
