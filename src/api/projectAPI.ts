@@ -1,9 +1,11 @@
-import { api } from "./_graphQL";
+import { api as graphQlApi } from "./_graphQL";
 import { IProject } from "../interfaces/iProject";
 import { gql } from "@apollo/client";
 
 export const projectAPI = {
   getProjectByUserId: async (userId: number): Promise<IProject[]> => {
+
+    const api = await graphQlApi();
     const projects = (
       await api.query({
         query: gql`
@@ -21,6 +23,7 @@ export const projectAPI = {
     return projects;
   },
   getPublicProjects: async (): Promise<IProject[]> => {
+    const api = await graphQlApi();
     const projects = (
       await api.query({
         query: gql`

@@ -35,6 +35,7 @@ const LoginScreen = ({ navigation }: Props) => {
         });
 
         if (res !== undefined) {
+          console.log("response log:", res);
           await AsyncStorage.setItem("token", res.token);
           await AsyncStorage.setItem("userId", res.userId.toString());
 

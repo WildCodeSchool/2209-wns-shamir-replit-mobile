@@ -28,20 +28,25 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
-// On initialise Apollo Client
-const params: ApolloClientOptions<unknown> = {
-  uri: `${useUrl}/graphql`,
-  cache: new InMemoryCache(),
-  defaultOptions,
-};
-
 // On récupère le token de l'utilisateur
-const getToken = async () => await AsyncStorage.getItem("token");
-
-const token = getToken();
-
-// On ajoute le token dans les headers de la requête
-if (token) params.headers = { Authorization: "Bearer " + token };
+const getToken = async () =>
+  JSON.parse((await AsyncStorage.getItem("token")) || "{}");
 
 // On exporte l'instance d'Apollo Client
-export const api = new ApolloClient(params);
+export const api = async () => {
+  // On initialise Apollo Client
+  const params: ApolloClientOptions<unknown> = {
+    uri: `${useUrl}/graphql`,
+    cache: new InMemoryCache(),
+    defaultOptions,
+  };
+
+  const token = await getToken();
+  console.log(token);
+
+  // On ajoute le token dans les headers de la requête
+  if (Object.keys(token).includes("token"))
+    params.headers = { Authorization: "Bearer " + token.token };
+
+  return new ApolloClient(params);
+};

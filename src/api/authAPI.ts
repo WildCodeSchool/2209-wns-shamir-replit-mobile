@@ -1,6 +1,6 @@
 // Fichier d'API pour la gestion de l'authentification
 
-import { api } from "./_graphQL";
+import { api as graphQlApi } from "./_graphQL";
 import { authRequest } from "./authRequest";
 
 type LoadTokenProps = {
@@ -11,6 +11,7 @@ type LoadTokenProps = {
 export const authAPI = {
   connect: async ({ email, password }: LoadTokenProps) => {
     try {
+      const api = await graphQlApi();
       const { data } = await api.query({
         query: authRequest.GET_TOKEN,
         variables: {
