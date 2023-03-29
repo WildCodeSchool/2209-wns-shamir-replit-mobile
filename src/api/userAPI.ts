@@ -1,10 +1,11 @@
 // Description: API for user
 import { CreateUser, IUser } from "../interfaces/iUser";
 import { userRequest } from "./userRequest";
-import { api } from "./_graphQL";
+import { api as graphQlApi } from "./_graphQL";
 
 export const userAPI = {
   createUser: async (user: Partial<CreateUser>): Promise<IUser> => {
+    const api = await graphQlApi();
     const newUser = (
       await api.mutate({
         // mutation à refaire lorsque le back sera OP

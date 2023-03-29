@@ -16,7 +16,7 @@ import { authAPI } from "../api/authAPI";
 type Props = StackScreenProps<LoginStackParamList, "LoginScreen">;
 
 const LoginScreen = ({ navigation }: Props) => {
-  const { isLogged, setIsLogged } = useContext(IsLoggedContext);
+  const { setIsLogged } = useContext(IsLoggedContext);
 
   const [fieldMail, setFieldMail] = useState("");
   const [fieldPassword, setFieldPassword] = useState("");
@@ -29,12 +29,16 @@ const LoginScreen = ({ navigation }: Props) => {
       setPasswordErrors(fieldPassword.length > 0 ? false : true);
 
       if (fieldMail && fieldPassword) {
-        const result = await authAPI.connect({
+        const res = await authAPI.connect({
           email: fieldMail,
           password: fieldPassword,
         });
-        if (result !== undefined) {
-          await AsyncStorage.setItem("token", result);
+
+        if (res !== undefined) {
+          console.log("response log:", res);
+          await AsyncStorage.setItem("token", res.token);
+          await AsyncStorage.setItem("userId", res.userId.toString());
+
           setIsLogged(true);
         } else {
           setEmailErrors(true);
@@ -42,7 +46,7 @@ const LoginScreen = ({ navigation }: Props) => {
         }
       }
     } catch (e) {
-      console.error(e);
+      console.error("errer ici ", e);
     }
   };
 

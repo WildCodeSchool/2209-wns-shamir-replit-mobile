@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useContext } from "react";
+import React, { useContext } from "react";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import EditorScreen from "./screens/EditorScreen";
@@ -27,7 +27,7 @@ const AppStack = createStackNavigator<AppStackParamList>();
 const LoginStack = createStackNavigator<LoginStackParamList>();
 
 export default function Navigation() {
-  const { isLogged, setIsLogged } = useContext(IsLoggedContext);
+  const { isLogged } = useContext(IsLoggedContext);
   const checkLoginStatus = () => {
     if (isLogged) {
       return true;
