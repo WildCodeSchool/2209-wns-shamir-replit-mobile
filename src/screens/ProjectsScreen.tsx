@@ -25,6 +25,10 @@ const ProjectsScreen = ({ navigation }: Props) => {
   const [projet, setProjet] = useState<IProject[]>();
   const [publics, setPublic] = useState<IProject[]>();
 
+  const goNav = (nav: keyof AppStackParamList) => {
+    navigation.navigate(nav);
+  };
+
   const GetProjectById = async () => {
     const userId = await AsyncStorage.getItem("userId");
     if (userId != null) {
@@ -44,7 +48,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
   useEffect(() => {
     GetProjectById();
     getPublicProjects();
-  }, []);
+  }, [myProjectVisible, PublicProjects]);
 
   return (
     <LayoutApp navigation={navigation}>
@@ -62,7 +66,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
           setIsVisible={setMyProjectVisible}
         />
         {myProjectVisible && projet !== undefined ? (
-          <ProjectList data={projet} />
+          <ProjectList data={projet} goNav={goNav} />
         ) : null}
         <LayoutCategory
           name="Shared projects"
@@ -75,7 +79,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
           setIsVisible={setPublicProjects}
         />
         {PublicProjects && publics !== undefined ? (
-          <ProjectList data={publics} />
+          <ProjectList data={publics} goNav={goNav} />
         ) : null}
       </View>
     </LayoutApp>

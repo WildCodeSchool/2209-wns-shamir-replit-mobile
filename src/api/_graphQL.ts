@@ -29,8 +29,7 @@ const defaultOptions: DefaultOptions = {
 };
 
 // On récupère le token de l'utilisateur
-const getToken = async () =>
-  JSON.parse((await AsyncStorage.getItem("token")) || "{}");
+const getToken = async () => (await AsyncStorage.getItem("token")) || "{}";
 
 // On exporte l'instance d'Apollo Client
 export const api = async () => {
@@ -42,11 +41,8 @@ export const api = async () => {
   };
 
   const token = await getToken();
-  console.log(token);
-
   // On ajoute le token dans les headers de la requête
-  if (Object.keys(token).includes("token"))
-    params.headers = { Authorization: "Bearer " + token.token };
+  if (token) params.headers = { Authorization: "Bearer " + token };
 
   return new ApolloClient(params);
 };

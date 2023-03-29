@@ -4,13 +4,17 @@ import React from "react";
 
 type Props = {
   isFocus: boolean;
+  isSaveOnline: boolean;
 };
 
-const FileBar = ({ isFocus }: Props) => (
-  <View style={styles.container}>
-    <Text>FileBar, {isFocus}</Text>
-  </View>
-);
+const FileBar = ({ isSaveOnline }: Props) => {
+  console.log("isSaveOnline", isSaveOnline);
+  return (
+    <View style={styles.container}>
+      <Text>FileBar, {isSaveOnline ? "yes" : "no"}</Text>
+    </View>
+  );
+};
 
 export { FileBar };
 
