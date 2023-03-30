@@ -7,13 +7,11 @@ type Props = {
   isSaveOnline: boolean;
 };
 
-const FileBar = ({ isSaveOnline }: Props) => {
-  return (
-    <View style={styles.container}>
-      <Text>FileBar, {isSaveOnline ? "yes" : "no"}</Text>
-    </View>
-  );
-};
+const FileBar = ({ isSaveOnline }: Props) => (
+  <View style={styles.container}>
+    <Text>FileBar, {isSaveOnline ? "yes" : "no"}</Text>
+  </View>
+);
 
 export { FileBar };
 

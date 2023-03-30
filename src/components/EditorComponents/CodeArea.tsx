@@ -4,7 +4,7 @@ import CodeEditor, {
   CodeEditorSyntaxStyles,
 } from "@rivascva/react-native-code-editor";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { updateRes } from "../../api/fileAPI";
 
 type Props = {
