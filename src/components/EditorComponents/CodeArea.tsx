@@ -1,15 +1,15 @@
 // Description: Zone de code pour l'éditeur
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View, ActivityIndicator } from "react-native";
 import CodeEditor, {
   CodeEditorSyntaxStyles,
 } from "@rivascva/react-native-code-editor";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { updateRes } from "../../api/fileAPI";
 
 type Props = {
   isFocus: boolean;
-  code: string;
+  editorCode: string;
   updateCode: (value: string) => void;
   fileId: number;
   projectId: number;
@@ -24,7 +24,7 @@ type Props = {
 
 const CodeArea = ({
   isFocus,
-  code,
+  editorCode,
   updateCode,
   updateFileCodeOnline,
   updateSaveOnline,
@@ -32,33 +32,43 @@ const CodeArea = ({
   projectId,
   isSaveOnline,
 }: Props) => {
-  const getEditorText = (value: string) => {
-    if (value !== code) {
-      updateCode(value);
-      updateSaveOnline(false);
-    }
+  const updateEditText = async (value: string) => {
+    console.log("edit text", value, "isSaveOnline", isSaveOnline);
+    updateSaveOnline(false);
+    updateCode(value);
   };
+
   useEffect(() => {
-    if (isSaveOnline === false) {
-      const willUpdate = setTimeout(async () => {
-        const res = await updateFileCodeOnline(code, fileId, projectId);
-        if (res !== false && res !== undefined) updateSaveOnline(true);
-      }, 2000);
-      return () => clearTimeout(willUpdate);
-    }
-  }, [code]);
+    console.log("code update");
+    console.log("3", editorCode);
+    const willUpdate = setTimeout(async () => {
+      console.log("4", editorCode);
+      const res = await updateFileCodeOnline(editorCode, fileId, projectId);
+      console.log("5", editorCode);
+      if (res) updateSaveOnline(true);
+    }, 2000);
+    return () => clearTimeout(willUpdate);
+  }, [editorCode]);
 
   return (
     <ScrollView style={styles.container}>
-      <CodeEditor
-        onChange={(value) => getEditorText(value)}
-        style={styles.editorBody}
-        language="javascript"
-        syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
-        showLineNumbers
-        initialValue={code}
-        readOnly={isFocus}
-      />
+      {editorCode !== undefined || editorCode !== "" ? (
+        <CodeEditor
+          onChange={(value) => updateEditText(value)}
+          style={styles.editorBody}
+          language="javascript"
+          syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
+          showLineNumbers
+          initialValue={editorCode}
+          readOnly={isFocus}
+        />
+      ) : (
+        <>
+          <View style={[styles.waitingContainer, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -76,5 +86,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     highlighterLineHeight: 30,
     inputLineHeight: 30,
+  },
+  waitingContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
   },
 });

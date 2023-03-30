@@ -37,6 +37,7 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   };
 
   const updateSaveOnline = (value: boolean) => {
+    console.log("save status", value);
     setIsSaveOnline(value);
   };
 
@@ -47,6 +48,7 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   ) => {
     if (usedFile) {
       try {
+        console.log("------------------------------------------------");
         return await fileAPI.updateFileOnline(codeToPush, fileId, projectId);
       } catch (e) {
         return false;
@@ -55,7 +57,8 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
     return false;
   };
 
-  const updateCode = async (value: string) => {
+  const updateCode = (value: string) => {
+    console.log("2", value);
     setEditorCode(value);
   };
 
@@ -63,20 +66,23 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
     const projectId = project.id;
     if (projectId !== undefined) {
       const req = await fileAPI.getAllFilesByProjectId(projectId);
+      console.log("1", req.getCodeFiles[0].code);
       // setProjectFiles(req.getFilesByProjectId);
       // setFilesCodeArr(req.getCodeFiles);
       setUsedFile(req.getCodeFiles[0]);
-      setEditorCode(req.getCodeFiles[0].code);
+      if (editorCode !== req.getCodeFiles[0].code)
+        updateCode(req.getCodeFiles[0].code);
     }
   };
 
   useEffect(() => {
+    console.log("0");
     getFilesInformations();
   }, [project]);
 
   return (
     <>
-      {usedFile ? (
+      {usedFile && editorCode ? (
         <LayoutApp navigation={navigation}>
           <FileBar isFocus={isFocus} isSaveOnline={isSaveOnline} />
           <TouchableOpacity
@@ -86,7 +92,7 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
           >
             <CodeArea
               isFocus={isFocus}
-              code={editorCode}
+              editorCode={editorCode}
               updateCode={updateCode}
               updateFileCodeOnline={updateFileCodeOnline}
               updateSaveOnline={updateSaveOnline}
@@ -103,9 +109,11 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
           </TouchableOpacity>
         </LayoutApp>
       ) : (
-        <View style={[styles.waitingContainer, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#00ff00" />
-        </View>
+        <LayoutApp navigation={navigation}>
+          <View style={[styles.waitingContainer, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>
+        </LayoutApp>
       )}
     </>
   );

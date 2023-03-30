@@ -8,7 +8,6 @@ type Props = {
 };
 
 const FileBar = ({ isSaveOnline }: Props) => {
-  console.log("isSaveOnline", isSaveOnline);
   return (
     <View style={styles.container}>
       <Text>FileBar, {isSaveOnline ? "yes" : "no"}</Text>
