@@ -5,18 +5,14 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import React from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 const DragBall = () => {
-  const startingPosition = 100;
-
-  const x = useSharedValue(startingPosition);
-  const y = useSharedValue(startingPosition);
-
   const isPressed = useSharedValue(false);
   const offset = useSharedValue({ x: 0, y: 0 });
   const animatedStyles = useAnimatedStyle(() => {
-    return {
+    const settings = {
       transform: [
         { translateX: withSpring(offset.value.x) },
         { translateY: withSpring(offset.value.y) },
@@ -24,6 +20,7 @@ const DragBall = () => {
       ],
       backgroundColor: isPressed.value ? "purple" : "blue",
     };
+    return settings;
   });
 
   const gesture = Gesture.Pan()

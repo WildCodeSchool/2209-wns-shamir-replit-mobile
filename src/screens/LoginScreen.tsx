@@ -72,7 +72,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LoginScreen</Text>
+      <Text style={styles.title}>Connection</Text>
       <TextInput
         style={emailErrors ? styles.inputfieldsError : styles.inputfields}
         onChangeText={setFieldMail}

@@ -5,7 +5,7 @@ import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { projectAPI } from "../api/projectAPI";
 import { IProject } from "../interfaces/iProject";
 import { ProjectList } from "../components/ProjectList";

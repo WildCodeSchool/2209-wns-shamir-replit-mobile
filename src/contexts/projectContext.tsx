@@ -1,5 +1,4 @@
 import React, { createContext, useState, useMemo, ReactNode } from "react";
-import { projectAPI } from "../api/projectAPI";
 import { IProject } from "../interfaces/iProject";
 
 const initProject: Partial<IProject> = {

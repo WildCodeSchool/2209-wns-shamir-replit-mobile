@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Text,
-  Dimensions,
   Modal,
 } from "react-native";
 import ProjectContext from "../contexts/projectContext";
@@ -25,18 +24,15 @@ import {
 import { projectAPI } from "../api/projectAPI";
 
 const BTN_SIZE = 55;
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 type FloatingMenuProps = {
   goNav: (nav: keyof AppStackParamList) => void;
   getPersoProjects: () => void;
 };
 const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
-  const { projectsShort, setProjectsShort } = useContext(ProjectContext);
+  const { projectsShort } = useContext(ProjectContext);
   const [pListVisible, setpListVisible] = useState(false);
   const [createProjectVisible, setCreateProjectVisible] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -48,9 +44,9 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
     goNav(nav);
   };
 
-  const removeProjectShort = (id: string) => {
-    setProjectsShort(projectsShort.filter((p) => p.id !== id));
-  };
+  // const removeProjectShort = (id: string) => {
+  //   setProjectsShort(projectsShort.filter((p) => p.id !== id));
+  // };
 
   const handleSubmitCreateProject = async () => {
     const newProject = {
@@ -116,7 +112,7 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
               maxLength={20}
               style={styles.inputForm}
               onChange={(e) => setProjectName(e.nativeEvent.text)}
-              trailing={(props) => (
+              trailing={() => (
                 <Text style={{ fontSize: 15, width: 50, color: "grey" }}>
                   20 car
                 </Text>
@@ -131,7 +127,7 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
             />
             <TouchableOpacity
               style={styles.inputSwitch}
-              onPress={() => setChecked(!checked)}
+              onPress={() => setIsPublic(!isPublic)}
             >
               <>
                 <View
@@ -143,8 +139,8 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
                 >
                   <Text>Public</Text>
                   <Switch
-                    value={checked}
-                    onValueChange={() => setChecked(!checked)}
+                    value={isPublic}
+                    onValueChange={() => setIsPublic(!isPublic)}
                   />
                 </View>
 

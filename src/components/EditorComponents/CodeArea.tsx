@@ -30,7 +30,6 @@ const CodeArea = ({
   updateSaveOnline,
   fileId,
   projectId,
-  isSaveOnline,
 }: Props) => {
   const updateEditText = async (value: string) => {
     updateSaveOnline(false);
