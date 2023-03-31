@@ -11,3 +11,9 @@ export type CreateUser = {
   login: string;
   password: string;
 };
+
+export type IUserId = {
+  id: number;
+  login: string;
+  email: string;
+};

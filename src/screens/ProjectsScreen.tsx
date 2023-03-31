@@ -1,11 +1,11 @@
 // Description: This screen is the main screen of the app. It contains the categories of projects and the search bar.
 import { StyleSheet, Text, View, TextInput } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
 import React, { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { projectAPI } from "../api/projectAPI";
 import { IProject } from "../interfaces/iProject";
 import { ProjectList } from "../components/ProjectList";
@@ -19,35 +19,40 @@ type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 const ProjectsScreen = ({ navigation }: Props) => {
   const [searchText, setSearchText] = useState("");
-  const [myProjectVisible, setMyProjectVisible] = useState(false);
-  const [sharedProjects, setSharedProjects] = useState(false);
-  const [PublicProjects, setPublicProjects] = useState(false);
-  const [projet, setProjet] = useState<IProject[]>();
-  const [publics, setPublic] = useState<IProject[]>();
+  const [persoProjToggle, setPersoProjToggle] = useState(false);
+  const [publicsProjToggle, setPublicsProjToggle] = useState(false);
+  const [sharedProjToggle, setSharedProjToggle] = useState(false);
 
-  const GetProjectById = async () => {
+  const [persoProj, setPersoProj] = useState<IProject[]>([]);
+  const [publicsProj, setPublicsProj] = useState<IProject[]>([]);
+  // const [sharedProj, setSharedProj] = useState<IProject[]>();
+
+  const goNav = (nav: keyof AppStackParamList) => {
+    navigation.navigate(nav);
+  };
+
+  const getPersoProjects = async () => {
     const userId = await AsyncStorage.getItem("userId");
     if (userId != null) {
       const idUser = parseInt(userId, 10);
-      setProjet(await projectAPI.getProjectByUserId(idUser));
+      const data = await projectAPI.getProjectByUserId(idUser);
+      setPersoProj(data);
     } else {
       console.error("probleme");
     }
   };
 
   const getPublicProjects = async () => {
-    setPublic(await projectAPI.getPublicProjects());
+    setPublicsProj(await projectAPI.getPublicProjects());
   };
 
-  // getPublicProjects();
-
   useEffect(() => {
-    GetProjectById();
+    getPersoProjects();
     getPublicProjects();
-  }, []);
+  }, [persoProjToggle, publicsProjToggle]);
 
   return (
-    <LayoutApp navigation={navigation}>
+    <LayoutApp navigation={navigation} getPersoProjects={getPersoProjects}>
       <View style={styles.container}>
         <Text>ProjectsScreen</Text>
         <TextInput
@@ -58,24 +63,24 @@ const ProjectsScreen = ({ navigation }: Props) => {
         ></TextInput>
         <LayoutCategory
           name="My projects"
-          isVisible={myProjectVisible}
-          setIsVisible={setMyProjectVisible}
+          isVisible={persoProjToggle}
+          setIsVisible={setPersoProjToggle}
         />
-        {myProjectVisible && projet !== undefined ? (
-          <ProjectList data={projet} />
+        {persoProjToggle && persoProj !== undefined ? (
+          <ProjectList data={persoProj} goNav={goNav} />
         ) : null}
         <LayoutCategory
           name="Shared projects"
-          isVisible={sharedProjects}
-          setIsVisible={setSharedProjects}
+          isVisible={sharedProjToggle}
+          setIsVisible={setSharedProjToggle}
         />
         <LayoutCategory
           name="Public projects"
-          isVisible={PublicProjects}
-          setIsVisible={setPublicProjects}
+          isVisible={publicsProjToggle}
+          setIsVisible={setPublicsProjToggle}
         />
-        {PublicProjects && publics !== undefined ? (
-          <ProjectList data={publics} />
+        {publicsProjToggle && publicsProj !== undefined ? (
+          <ProjectList data={publicsProj} goNav={goNav} />
         ) : null}
       </View>
     </LayoutApp>
@@ -84,7 +89,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
 
 export default ProjectsScreen;
 
-const colorBg = "#F5FCFF";
+const colorBg = "#c5e4e3";
 
 const styles = StyleSheet.create({
   container: {
@@ -92,6 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchInput: {
+    backgroundColor: "white",
     borderRadius: 10,
     borderWidth: 1,
     height: 40,

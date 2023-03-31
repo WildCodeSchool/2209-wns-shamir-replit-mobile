@@ -4,17 +4,18 @@ import React from "react";
 
 type Props = {
   isFocus: boolean;
+  isSaveOnline: boolean;
 };
 
-const FileBar = ({ isFocus }: Props) => (
+const FileBar = ({ isSaveOnline }: Props) => (
   <View style={styles.container}>
-    <Text>FileBar, {isFocus}</Text>
+    <Text>FileBar, {isSaveOnline ? "yes" : "no"}</Text>
   </View>
 );
 
 export { FileBar };
 
-const colorGreen = "green";
+const colorGreen = "#009d97";
 
 const styles = StyleSheet.create({
   container: {

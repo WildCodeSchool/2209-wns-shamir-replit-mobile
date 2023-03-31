@@ -17,7 +17,7 @@ const ConsoleArea = () => (
 
 export { ConsoleArea };
 
-const colorYellow = "yellow";
+const colorYellow = "black";
 const colorWhite = "white";
 const colorBlack = "black";
 const styles = StyleSheet.create({
