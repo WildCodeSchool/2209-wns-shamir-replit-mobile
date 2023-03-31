@@ -1,4 +1,5 @@
 import { IsLoggedContextProvider } from "./contexts/isLoggedContext";
+import { ProjectContextProvider } from "./contexts/projectContext";
 import { NavigationContainer } from "@react-navigation/native";
 import Constants from "expo-constants";
 import React from "react";
@@ -16,9 +17,11 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <IsLoggedContextProvider>
-        <NavigationContainer>
-          <Navigation />
-        </NavigationContainer>
+        <ProjectContextProvider>
+          <NavigationContainer>
+            <Navigation />
+          </NavigationContainer>
+        </ProjectContextProvider>
       </IsLoggedContextProvider>
     </ApolloProvider>
   );

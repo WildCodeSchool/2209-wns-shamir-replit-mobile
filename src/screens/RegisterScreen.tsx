@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    margin: 12,
+    padding: 12,
+    backgroundColor: "#c5e4e3",
   },
   title: {
     fontSize: 40,
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 5,
     padding: 10,
+    backgroundColor: "white",
   },
   inputfieldsError: {
     fontSize: 20,
@@ -127,10 +129,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     borderColor: "red",
+    backgroundColor: "white",
   },
   submitButton: {
     alignItems: "center",
-    backgroundColor: "lightblue",
+    backgroundColor: "#45c7c3",
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,

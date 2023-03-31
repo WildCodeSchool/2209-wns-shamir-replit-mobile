@@ -1,116 +1,75 @@
 // Description: Zone de code pour l'éditeur
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View, ActivityIndicator } from "react-native";
 import CodeEditor, {
   CodeEditorSyntaxStyles,
 } from "@rivascva/react-native-code-editor";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { updateRes } from "../../api/fileAPI";
 
 type Props = {
   isFocus: boolean;
+  editorCode: string;
+  updateCode: (value: string) => void;
+  fileId: number;
+  projectId: number;
+  isSaveOnline: boolean;
+  updateFileCodeOnline: (
+    codeToPush: string,
+    fileId: number,
+    projectId: number
+  ) => Promise<false | updateRes | undefined>;
+  updateSaveOnline: (value: boolean) => void;
 };
 
-const CodeArea = ({ isFocus }: Props) => {
-  const code = `
-  const RegisterScreen = ({ navigation }: Props) => {
-    const [fieldMail, setFieldMail] = useState("");
-    const [fieldLogin, setFieldLogin] = useState("");
-    const [fieldPassword, setFieldPassword] = useState("");
-  
-    const [emailErrors, setEmailErrors] = useState(false);
-    const [loginErrors, setLoginErrors] = useState(false);
-    const [passwordErrors, setPasswordErrors] = useState(false);
-  
-    const goNav = (nav: keyof LoginStackParamList) => {
-      navigation.navigate(nav);
-    };
-  
-    const verifyForm = () => {
-      
-      const verifPassword = fieldPassword.match(
-        /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
-      );
-      setEmailErrors(verifMail === null);
-      setLoginErrors(verifLogin === null);
-      setPasswordErrors(verifPassword === null);
-  
-      if (!verifMail || !verifLogin || !verifPassword) {
-        return false;
-      }
-  
-      return true;
-    };
-    const handleRegister = async () => {
-      const isValidForm = verifyForm();
-      if (isValidForm) {
-        const user: CreateUser = {
-          email: fieldMail,
-          login: fieldLogin,
-          password: fieldPassword,
-        };
-        await userAPI.createUser(user);
-        goNav("LoginScreen");
-      }
-    };
-  
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Inscription</Text>
-        <TextInput
-          style={emailErrors ? styles.inputfieldsError : styles.inputfields}
-          onChangeText={setFieldMail}
-          placeholder="Enter your mail"
-          value={fieldMail}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={loginErrors ? styles.inputfieldsError : styles.inputfields}
-          onChangeText={setFieldLogin}
-          placeholder="Enter your login"
-          value={fieldLogin}
-        />
-        <TextInput
-          style={passwordErrors ? styles.inputfieldsError : styles.inputfields}
-          onChangeText={setFieldPassword}
-          placeholder="Enter your password"
-          value={fieldPassword}
-          secureTextEntry={true}
-        />
-  
-        <TouchableOpacity onPress={handleRegister} style={styles.submitButton}>
-          <Text style={{ fontSize: 15 }}>Envoyer</Text>
-        </TouchableOpacity>
-        <Text style={styles.text}>
-          Déjà inscrit ?{" "}
-          <Text
-            onPress={() => goNav("LoginScreen")}
-            style={{ textDecorationLine: "underline" }}
-          >
-            clique là
-          </Text>
-        </Text>
-      </View>
-    );
+const CodeArea = ({
+  isFocus,
+  editorCode,
+  updateCode,
+  updateFileCodeOnline,
+  updateSaveOnline,
+  fileId,
+  projectId,
+}: Props) => {
+  const updateEditText = async (value: string) => {
+    updateSaveOnline(false);
+    updateCode(value);
   };
-  `;
+
+  useEffect(() => {
+    const willUpdate = setTimeout(async () => {
+      const res = await updateFileCodeOnline(editorCode, fileId, projectId);
+      if (res) updateSaveOnline(true);
+    }, 2000);
+    return () => clearTimeout(willUpdate);
+  }, [editorCode]);
 
   return (
     <ScrollView style={styles.container}>
-      <CodeEditor
-        style={styles.editorBody}
-        language="javascript"
-        syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
-        showLineNumbers
-        initialValue={code}
-        readOnly={isFocus}
-      />
+      {editorCode !== undefined || editorCode !== "" ? (
+        <CodeEditor
+          onChange={(value) => updateEditText(value)}
+          style={styles.editorBody}
+          language="javascript"
+          syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}
+          showLineNumbers
+          initialValue={editorCode}
+          readOnly={isFocus}
+        />
+      ) : (
+        <>
+          <View style={[styles.waitingContainer, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#00ff00" />
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 };
 
 export { CodeArea };
 
-const colorBlue = "blue";
+const colorBlue = "white";
 
 const styles = StyleSheet.create({
   container: {
@@ -121,5 +80,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     highlighterLineHeight: 30,
     inputLineHeight: 30,
+  },
+  waitingContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
   },
 });
