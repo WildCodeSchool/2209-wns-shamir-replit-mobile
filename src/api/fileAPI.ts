@@ -37,7 +37,6 @@ export const fileAPI = {
     projectId: number
   ) => {
     try {
-      console.log("Api call save Code", codeToPush);
       const api = await graphQLApi();
       const { data } = await api.mutate({
         mutation: fileRequest.updateCodeFile,

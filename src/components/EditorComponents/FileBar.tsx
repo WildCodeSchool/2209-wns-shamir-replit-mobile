@@ -15,7 +15,7 @@ const FileBar = ({ isSaveOnline }: Props) => (
 
 export { FileBar };
 
-const colorGreen = "green";
+const colorGreen = "#009d97";
 
 const styles = StyleSheet.create({
   container: {

@@ -33,18 +33,13 @@ const CodeArea = ({
   isSaveOnline,
 }: Props) => {
   const updateEditText = async (value: string) => {
-    console.log("edit text", value, "isSaveOnline", isSaveOnline);
     updateSaveOnline(false);
     updateCode(value);
   };
 
   useEffect(() => {
-    console.log("code update");
-    console.log("3", editorCode);
     const willUpdate = setTimeout(async () => {
-      console.log("4", editorCode);
       const res = await updateFileCodeOnline(editorCode, fileId, projectId);
-      console.log("5", editorCode);
       if (res) updateSaveOnline(true);
     }, 2000);
     return () => clearTimeout(willUpdate);
@@ -75,7 +70,7 @@ const CodeArea = ({
 
 export { CodeArea };
 
-const colorBlue = "blue";
+const colorBlue = "white";
 
 const styles = StyleSheet.create({
   container: {

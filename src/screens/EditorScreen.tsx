@@ -22,7 +22,7 @@ import { fileAPI } from "../api/fileAPI";
 type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
 const EditorScreen = ({ navigation }: EditorScreenProps) => {
-  const { project } = useContext(ProjectContext);
+  const { currentProject } = useContext(ProjectContext);
   const [isFocus, setIsFocus] = useState<boolean>(true);
   // const [projectFiles, setProjectFiles] = useState<IFiles[]>();
   //  const [filesCodeArr, setFilesCodeArr] = useState<FilesCodeData[]>();
@@ -37,7 +37,6 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   };
 
   const updateSaveOnline = (value: boolean) => {
-    console.log("save status", value);
     setIsSaveOnline(value);
   };
 
@@ -48,7 +47,6 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   ) => {
     if (usedFile) {
       try {
-        console.log("------------------------------------------------");
         return await fileAPI.updateFileOnline(codeToPush, fileId, projectId);
       } catch (e) {
         return false;
@@ -58,15 +56,13 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   };
 
   const updateCode = (value: string) => {
-    console.log("2", value);
     setEditorCode(value);
   };
 
   const getFilesInformations = async () => {
-    const projectId = project.id;
+    const projectId = currentProject.id;
     if (projectId !== undefined) {
       const req = await fileAPI.getAllFilesByProjectId(projectId);
-      console.log("1", req.getCodeFiles[0].code);
       // setProjectFiles(req.getFilesByProjectId);
       // setFilesCodeArr(req.getCodeFiles);
       setUsedFile(req.getCodeFiles[0]);
@@ -76,9 +72,8 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   };
 
   useEffect(() => {
-    console.log("0");
     getFilesInformations();
-  }, [project]);
+  }, [currentProject]);
 
   return (
     <>

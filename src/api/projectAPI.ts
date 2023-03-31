@@ -1,6 +1,7 @@
 import { api as graphQlApi } from "./_graphQL";
-import { IProject } from "../interfaces/iProject";
+import { IProject, CreateProject } from "../interfaces/iProject";
 import { gql } from "@apollo/client";
+import { projectRequest } from "./projectRequest";
 
 export const projectAPI = {
   getProjectByUserId: async (userId: number): Promise<IProject[]> => {
@@ -84,5 +85,22 @@ export const projectAPI = {
     ).data.addView as IProject[];
 
     return updatedProject[0]?.nb_views;
+  },
+
+  create: async (project: Omit<CreateProject, "userId">): Promise<IProject> => {
+    const api = await graphQlApi();
+    const newProject = (
+      await api.mutate({
+        // mutation à refaire lorsque le back sera OP
+        mutation: projectRequest.create,
+        variables: {
+          isPublic: project.isPublic,
+          description: project.description,
+          name: project.name,
+        },
+      })
+    ).data.createProject as IProject;
+
+    return { ...newProject, id: newProject.id.toString() };
   },
 };

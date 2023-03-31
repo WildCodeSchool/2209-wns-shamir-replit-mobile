@@ -59,6 +59,7 @@ const Header = () => {
 
 export { Header };
 
+const colorMain = "#45c7c3";
 const colorRed = "red";
 const colorWhite = "white";
 const shadowColor = "#000";
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "flex-end",
-    backgroundColor: colorRed,
+    backgroundColor: colorMain,
     height: 100,
     justifyContent: "center",
     top: 0,

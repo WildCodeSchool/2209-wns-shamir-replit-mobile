@@ -9,8 +9,13 @@ import { StackNavigationProp } from "@react-navigation/stack";
 type LayoutAppProps = {
   children: ReactNode;
   navigation: StackNavigationProp<AppStackParamList>;
+  getPersoProjects: () => void;
 };
-const LayoutApp = ({ children, navigation }: LayoutAppProps) => {
+const LayoutApp = ({
+  children,
+  navigation,
+  getPersoProjects,
+}: LayoutAppProps) => {
   const goNav = (nav: keyof AppStackParamList) => {
     navigation.navigate(nav);
   };
@@ -18,7 +23,7 @@ const LayoutApp = ({ children, navigation }: LayoutAppProps) => {
     <>
       <Header />
       <View style={styles.childContainer}>{children}</View>
-      <FloatingMenu goNav={goNav} />
+      <FloatingMenu goNav={goNav} getPersoProjects={getPersoProjects} />
     </>
   );
 };

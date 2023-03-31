@@ -17,13 +17,19 @@ type Props = {
 };
 
 const ProjectList = ({ data, goNav }: Props) => {
-  const { setProject } = useContext(ProjectContext);
+  const { setCurrentProject, setProjectsShort, projectsShort } =
+    useContext(ProjectContext);
 
   const handleOpenProject = async (project: IProject) => {
-    console.log("project", project);
-    setProject(project);
+    setCurrentProject(project);
+    addProjectShort(project.id, project.name);
     projectAPI.addView(project.id);
     goNav("EditorScreen");
+  };
+
+  const addProjectShort = (id: string, name: string) => {
+    if (projectsShort.find((p) => p.id === id)) return;
+    setProjectsShort([...projectsShort, { id, name }]);
   };
 
   return (
@@ -33,10 +39,11 @@ const ProjectList = ({ data, goNav }: Props) => {
         renderItem={({ item }) => (
           <TouchableHighlight
             key={item.id}
+            style={{ marginTop: 10 }}
             onPress={() => handleOpenProject(item)}
           >
             <View style={styles.viewBox}>
-              <Text>{item.name}</Text>
+              <Text style={{ fontSize: 20 }}>{item.name}</Text>
             </View>
           </TouchableHighlight>
         )}

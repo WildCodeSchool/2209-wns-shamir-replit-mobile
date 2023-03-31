@@ -14,6 +14,7 @@
     "@apollo/client": "^3.7.5",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-material/core": "^1.3.7",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/stack": "^6.3.11",
     "@rivascva/react-native-code-editor": "^1.2.2",
@@ -28,6 +29,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.4",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-reanimated": "~2.14.4",
     "react-native-web": "~0.18.9",
     "react-test-renderer": "^18.2.0"
   },

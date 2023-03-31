@@ -1,4 +1,5 @@
 import React, { createContext, useState, useMemo, ReactNode } from "react";
+import { projectAPI } from "../api/projectAPI";
 import { IProject } from "../interfaces/iProject";
 
 const initProject: Partial<IProject> = {
@@ -12,28 +13,51 @@ const initProject: Partial<IProject> = {
   file: [],
 };
 
+type ProjectsShort = {
+  id: string;
+  name: string;
+};
+
 type ProjectContextProviderProps = { children: ReactNode };
 type TypeContext = {
-  project: Partial<IProject>;
-  setProject: (c: Partial<IProject>) => void;
+  currentProject: Partial<IProject>;
+  setCurrentProject: (c: Partial<IProject>) => void;
+  projectsShort: ProjectsShort[];
+  setProjectsShort: (c: ProjectsShort[]) => void;
+  toggleCraPro: boolean;
+  setToggleCraPro: (bool: boolean) => void;
 };
 
 const ProjectContext = createContext<TypeContext>({
-  project: initProject,
+  currentProject: initProject,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setProject: () => {},
+  setCurrentProject: () => {},
+  projectsShort: [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setProjectsShort: () => {},
+  toggleCraPro: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setToggleCraPro: () => {},
 });
 
 export function ProjectContextProvider({
   children,
 }: ProjectContextProviderProps) {
-  const [project, setProject] = useState<Partial<IProject>>(initProject);
+  const [currentProject, setCurrentProject] =
+    useState<Partial<IProject>>(initProject);
+  const [projectsShort, setProjectsShort] = useState<ProjectsShort[]>([]);
+  const [toggleCraPro, setToggleCraPro] = useState<boolean>(false);
+
   const value = useMemo(
     () => ({
-      project,
-      setProject,
+      currentProject,
+      setCurrentProject,
+      projectsShort,
+      setProjectsShort,
+      setToggleCraPro,
+      toggleCraPro,
     }),
-    [project]
+    [currentProject]
   );
   return (
     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
