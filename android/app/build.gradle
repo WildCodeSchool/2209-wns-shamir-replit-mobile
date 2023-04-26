@@ -1,0 +1,4 @@
+dependencies {
+  // For WebP support, without animations
+  implementation 'com.facebook.fresco:webpsupport:2.5.0'
+}
