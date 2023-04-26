@@ -1,16 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import React, { useState } from "react";
-
 import { StackScreenProps } from "@react-navigation/stack";
 import { LoginStackParamList } from "../Navigation";
 import { userAPI } from "../api/userAPI";
 import { CreateUser } from "../interfaces/iUser";
+import { commonStyles } from "../styles/common.style";
 
 type Props = StackScreenProps<LoginStackParamList, "RegisterScreen">;
 
@@ -45,6 +39,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
     return true;
   };
+
   const handleRegister = async () => {
     const isValidForm = verifyForm();
     if (isValidForm) {
@@ -60,87 +55,53 @@ const RegisterScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Inscription</Text>
+    <View style={commonStyles.containerCentered}>
+      <Text style={commonStyles.title}>Inscription</Text>
       <TextInput
-        style={emailErrors ? styles.inputfieldsError : styles.inputfields}
+        style={
+          emailErrors ? commonStyles.inputfieldsError : commonStyles.inputfields
+        }
         onChangeText={setFieldMail}
         placeholder="Enter your mail"
         value={fieldMail}
         keyboardType="email-address"
       />
       <TextInput
-        style={loginErrors ? styles.inputfieldsError : styles.inputfields}
+        style={
+          loginErrors ? commonStyles.inputfieldsError : commonStyles.inputfields
+        }
         onChangeText={setFieldLogin}
         placeholder="Enter your login"
         value={fieldLogin}
       />
       <TextInput
-        style={passwordErrors ? styles.inputfieldsError : styles.inputfields}
+        style={
+          passwordErrors
+            ? commonStyles.inputfieldsError
+            : commonStyles.inputfields
+        }
         onChangeText={setFieldPassword}
         placeholder="Enter your password"
         value={fieldPassword}
         secureTextEntry={true}
       />
 
-      <TouchableOpacity onPress={handleRegister} style={styles.submitButton}>
+      <TouchableOpacity
+        onPress={handleRegister}
+        style={commonStyles.submitButton}
+      >
         <Text style={{ fontSize: 15 }}>Envoyer</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>
-        Déjà inscrit ?{" "}
-        <Text
-          onPress={() => goNav("LoginScreen")}
-          style={{ textDecorationLine: "underline" }}
-        >
-          clique là
+      <TouchableOpacity
+        style={{ ...commonStyles.submitButton, backgroundColor: "#FFF0" }}
+        onPress={() => goNav("LoginScreen")}
+      >
+        <Text style={{ ...commonStyles.text, textDecorationLine: "underline" }}>
+          Déjà inscrit ?
         </Text>
-      </Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 export default RegisterScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 12,
-    backgroundColor: "#c5e4e3",
-  },
-  title: {
-    fontSize: 40,
-    alignSelf: "center",
-  },
-  inputfields: {
-    fontSize: 20,
-    height: 50,
-    borderWidth: 1,
-    marginBottom: 20,
-    borderRadius: 5,
-    padding: 10,
-    backgroundColor: "white",
-  },
-  inputfieldsError: {
-    fontSize: 20,
-    height: 50,
-    borderWidth: 1,
-    marginBottom: 20,
-    borderRadius: 5,
-    padding: 10,
-    borderColor: "red",
-    backgroundColor: "white",
-  },
-  submitButton: {
-    alignItems: "center",
-    backgroundColor: "#45c7c3",
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 15,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-});
