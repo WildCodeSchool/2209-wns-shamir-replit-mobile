@@ -12,7 +12,7 @@ const initProject: Partial<IProject> = {
   file: [],
 };
 
-type ProjectsShort = {
+export type ProjectsShort = {
   id: string;
   name: string;
 };

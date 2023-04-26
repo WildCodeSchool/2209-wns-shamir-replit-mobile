@@ -1,18 +1,11 @@
 // Description: Floating menu pour l'écran d'accueil (bouton editeur et projet)
-import {
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  Modal,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text, Modal } from "react-native";
 import ProjectContext from "../contexts/projectContext";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { AppStackParamList } from "../Navigation";
 import { useContext } from "react";
-import { DragBall } from "./DragBall";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 import {
@@ -22,6 +15,7 @@ import {
   TextInput,
 } from "@react-native-material/core";
 import { projectAPI } from "../api/projectAPI";
+import { BubbleProject } from "./BubbleProject";
 
 const BTN_SIZE = 55;
 
@@ -38,15 +32,9 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
   const [projectDescription, setProjectDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
 
-  console.log("projectsShort", projectsShort);
-
   const handleNav = (nav: keyof AppStackParamList) => {
     goNav(nav);
   };
-
-  // const removeProjectShort = (id: string) => {
-  //   setProjectsShort(projectsShort.filter((p) => p.id !== id));
-  // };
 
   const handleSubmitCreateProject = async () => {
     const newProject = {
@@ -70,7 +58,10 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
   return (
     <>
       <TouchableOpacity
-        onPress={() => handleNav("ProjectsScreen")}
+        onPress={() => {
+          handleNav("ProjectsScreen");
+          setpListVisible(false);
+        }}
         style={[styles.container, styles.projetScreen]}
       >
         <Ionicons
@@ -83,11 +74,7 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
         onPress={() => setCreateProjectVisible(true)}
         style={[styles.container, styles.createProject]}
       >
-        <Ionicons
-          name="create-outline"
-          size={(BTN_SIZE / 4) * 2.5}
-          color="white"
-        />
+        <AntDesign name="plus" size={(BTN_SIZE / 4) * 2.5} color="white" />
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -156,33 +143,16 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
           </View>
         </View>
       </Modal>
-      <DragBall />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={pListVisible}
-        onRequestClose={() => {
-          setpListVisible(!pListVisible);
-        }}
-      >
-        <FlatList
-          style={styles.projectShortList}
-          data={projectsShort}
-          renderItem={({ item }) => (
-            <View key={item.id} style={styles.pShortContainer}>
-              <DragBall />
-              <TouchableOpacity onPress={() => console.log("Yes")}>
-                <Text style={styles.pName}>{item.name}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+      {pListVisible ? (
+        <BubbleProject
+        // pListVisible={pListVisible}
+        // setpListVisible={setpListVisible}
         />
-      </Modal>
-
+      ) : null}
       {projectsShort.length > 0 ? (
         <>
           <TouchableOpacity
-            onPress={() => setpListVisible(true)}
+            onPress={() => setpListVisible(!pListVisible)}
             style={[styles.container, styles.editorScreen]}
           >
             <Ionicons
@@ -219,13 +189,6 @@ const styles = StyleSheet.create({
   projetScreen: {
     bottom: 20,
   },
-  pShortContainer: {
-    paddingLeft: 20,
-    flexDirection: "row",
-    margin: 20,
-    alignItems: "center",
-    backgroundColor: "pink",
-  },
   projectShortList: {
     zIndex: 2,
     top: 100,
@@ -240,11 +203,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     marginTop: 40,
-  },
-  pName: {
-    color: "black",
-    fontSize: 20,
-    marginLeft: 20,
   },
   modalView: {
     alignItems: "center",
