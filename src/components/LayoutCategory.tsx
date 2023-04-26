@@ -3,12 +3,6 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-// type Category = {
-//   myProject: boolean;
-//   projectShare: boolean;
-//   publicProject: boolean;
-// };
-
 type Props = {
   name: string;
   isVisible: boolean;
@@ -16,11 +10,10 @@ type Props = {
 };
 
 const LayoutCategory = ({ name, isVisible, setIsVisible }: Props) => {
-  // const [isVisible, setIsVisible] = useState(true);
-
   const toggleCategoryVisibility = () => {
     setIsVisible(!isVisible);
   };
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -35,7 +28,7 @@ const LayoutCategory = ({ name, isVisible, setIsVisible }: Props) => {
         size={30}
         color="black"
       />
-      <Text>{name}</Text>
+      <Text style={styles.text}>{name}</Text>
     </TouchableOpacity>
   );
 };
@@ -47,5 +40,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
+    gap: 3,
+    marginBottom: 3,
+  },
+  text: {
+    fontWeight: "bold",
   },
 });

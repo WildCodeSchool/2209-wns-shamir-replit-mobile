@@ -9,6 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+.fuse_hidden*
 
 # macOS
 .DS_Store

@@ -19,6 +19,9 @@ export const authAPI = {
           email,
         },
       });
+
+      if (!data) throw new Error("no data received");
+
       return JSON.parse(data.getToken);
     } catch (err) {
       console.error("err connect", err);

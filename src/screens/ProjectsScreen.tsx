@@ -1,5 +1,5 @@
 // Description: This screen is the main screen of the app. It contains the categories of projects and the search bar.
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { View, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
@@ -9,6 +9,8 @@ import React, { useEffect, useState } from "react";
 import { projectAPI } from "../api/projectAPI";
 import { IProject } from "../interfaces/iProject";
 import { ProjectList } from "../components/ProjectList";
+import { commonStyles } from "../styles/common.style";
+import { ScreenTitle } from "../components/ScreenTitle";
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 // type Category = {
@@ -53,14 +55,14 @@ const ProjectsScreen = ({ navigation }: Props) => {
 
   return (
     <LayoutApp navigation={navigation} getPersoProjects={getPersoProjects}>
-      <View style={styles.container}>
-        <Text>ProjectsScreen</Text>
+      <View style={commonStyles.containerTop}>
+        <ScreenTitle title="Liste des projets" />
         <TextInput
-          style={styles.searchInput}
+          style={commonStyles.searchInput}
           onChangeText={setSearchText}
           placeholder="Make a search"
           value={searchText}
-        ></TextInput>
+        />
         <LayoutCategory
           name="My projects"
           isVisible={persoProjToggle}
@@ -88,20 +90,3 @@ const ProjectsScreen = ({ navigation }: Props) => {
 };
 
 export default ProjectsScreen;
-
-const colorBg = "#c5e4e3";
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorBg,
-    flex: 1,
-  },
-  searchInput: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    borderWidth: 1,
-    height: 40,
-    margin: 12,
-    padding: 10,
-  },
-});
