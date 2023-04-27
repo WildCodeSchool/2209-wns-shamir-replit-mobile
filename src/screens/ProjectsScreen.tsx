@@ -14,12 +14,6 @@ import ProjectListContext from "../contexts/projectListContext";
 import { useGetProjects } from "../hooks/useGetProjects";
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
-// type Category = {
-//   myProject: boolean;
-//   projectShare: boolean;
-//   publicProject: boolean;
-// };
-
 const ProjectsScreen = ({ navigation }: Props) => {
   const [searchText, setSearchText] = useState("");
   const [persoProjToggle, setPersoProjToggle] = useState(false);
@@ -29,10 +23,6 @@ const ProjectsScreen = ({ navigation }: Props) => {
   const { projectList } = useContext(ProjectListContext);
 
   const { getPersoProjects, getPublicProjects } = useGetProjects();
-
-  // const [persoProj, setPersoProj] = useState<IProject[]>([]);
-  // const [publicsProj, setPublicsProj] = useState<IProject[]>([]);
-  // const [sharedProj, setSharedProj] = useState<IProject[]>();
 
   const [filteredPersoProjects, setFilteredPersoProjects] = useState<
     IProject[]
@@ -69,7 +59,6 @@ const ProjectsScreen = ({ navigation }: Props) => {
       <View style={commonStyles.containerTop}>
         <ScreenTitle title="Liste des projets" />
         <TextInput
-          // style={commonStyles.searchInput}
           onChangeText={setSearchText}
           placeholder="Rechercher un projet"
           value={searchText}
