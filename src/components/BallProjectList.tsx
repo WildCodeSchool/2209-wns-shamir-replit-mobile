@@ -12,43 +12,30 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ProjectContext from "../contexts/projectContext";
 import { AntDesign } from "@expo/vector-icons";
 import { BallProject } from "./BallProject";
+import { IProject } from "../interfaces/iProject";
 
 const binSize = 50;
 const { width, height } = Dimensions.get("window");
 const headerSize = 95;
 
-type BinAnimated = {
-  opacity: 0 | 1;
-  transform: (
-    | {
-        scale: 1 | 1.3;
-        translateY?: undefined;
-      }
-    | {
-        translateY: 0 | 65;
-        scale?: undefined;
-      }
-  )[];
+type BallProjectListProps = {
+  handleOpenProject: (projet: IProject) => void;
+  removeProjectShort: (projet: IProject) => void;
 };
 
-const BallProjectList = () => {
+const BallProjectList = ({
+  handleOpenProject,
+  removeProjectShort,
+}: BallProjectListProps) => {
   // Liste des projets en cours
-  const { projectsShort, setProjectsShort } = useContext(ProjectContext);
-  const removeProjectShort = (id: string) => {
-    setProjectsShort(projectsShort.filter((p) => p.id !== id));
-  };
+  const { projectsShort } = useContext(ProjectContext);
 
   // item selectionné
-  const [idItemPressed, setIdItemPressed] = useState<number>();
   const binPosition = useSharedValue({ x: 0, y: 0 });
 
   const ballPressed = useSharedValue<boolean[]>(
     Array(projectsShort.length).fill(false)
   );
-
-  const [binAnimatedStyle, setBinAnimatedStyle] = useState<
-    BinAnimated | undefined
-  >(undefined);
 
   // bin animated style
   const binAnimated = useAnimatedStyle(() => {
@@ -78,6 +65,8 @@ const BallProjectList = () => {
             ballPressed={ballPressed}
             itemIndex={itemIndex}
             key={itemIndex}
+            handleOpenProject={handleOpenProject}
+            removeProjectShort={removeProjectShort}
           />
         ))}
       </View>

@@ -1,8 +1,8 @@
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import React from "react";
-import { ProjectsShort } from "../contexts/projectContext";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -11,13 +11,16 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
+import { IProject } from "../interfaces/iProject";
 
 type BallProjectProps = {
-  item: ProjectsShort;
+  item: IProject;
   width: number;
   binPosition: Animated.SharedValue<{ x: number; y: number }>;
   ballPressed: Animated.SharedValue<boolean[]>;
   itemIndex: number;
+  handleOpenProject: (projet: IProject) => void;
+  removeProjectShort: (projet: IProject) => void;
 };
 
 const BallProject = ({
@@ -26,6 +29,8 @@ const BallProject = ({
   binPosition,
   ballPressed,
   itemIndex,
+  handleOpenProject,
+  removeProjectShort,
 }: BallProjectProps) => {
   const ballSize = 55;
   const scaleBall = useSharedValue(1);
@@ -51,9 +56,11 @@ const BallProject = ({
   const isLongPressed = useSharedValue(false);
   const isPanActivated = useSharedValue(false);
 
-  const tap = Gesture.Tap().maxDuration(299).onEnd(()=>{
-    
-  })
+  const tap = Gesture.Tap()
+    .maxDuration(299)
+    .onEnd(() => {
+      runOnJS(handleOpenProject)(item);
+    });
 
   const longPress = Gesture.LongPress()
     .minDuration(300)
@@ -62,8 +69,6 @@ const BallProject = ({
       console.log("long press activated");
       isLongPressed.value = true;
     });
-
-
 
   const pan = Gesture.Pan()
     .manualActivation(true)
@@ -125,10 +130,12 @@ const BallProject = ({
         ballPagePosX.value > binPosition.value.x - 55
       ) {
         offsetY.value = withDelay(300, withSpring(binPosition.value.y + 65));
+        runOnJS(removeProjectShort)(item);
+        console.log("item", item);
       }
     });
 
-  const composed = Gesture.Simultaneous(pan,tap, longPress);
+  const composed = Gesture.Simultaneous(pan, tap, longPress);
 
   // ball animated style
   const ballAnimated = useAnimatedStyle(() => {

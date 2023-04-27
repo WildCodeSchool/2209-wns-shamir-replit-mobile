@@ -17,19 +17,19 @@ type Props = {
 };
 
 const ProjectList = ({ data, goNav }: Props) => {
-  const { setCurrentProject, setProjectsShort, projectsShort } =
+  const { setCurrentProject, setProjectsShort, projectsShort, currentProject } =
     useContext(ProjectContext);
 
-  const handleOpenProject = async (project: IProject) => {
-    setCurrentProject(project);
-    addProjectShort(project.id, project.name);
-    projectAPI.addView(project.id);
+  const handleOpenProject = async (projet: IProject) => {
+    setCurrentProject(projet);
+    addProjectShort(projet);
+    projectAPI.addView(projet.id);
     goNav("EditorScreen");
   };
 
-  const addProjectShort = (id: string, name: string) => {
-    if (projectsShort.find((p) => p.id === id)) return;
-    setProjectsShort([...projectsShort, { id, name }]);
+  const addProjectShort = (projet: IProject) => {
+    if (projectsShort.find((p) => p.id === projet.id)) return;
+    setProjectsShort([...projectsShort, projet]);
   };
 
   return (
