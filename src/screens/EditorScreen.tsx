@@ -10,7 +10,6 @@ import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
 import { CodeArea } from "../components/EditorComponents/CodeArea";
-import { FileBar } from "../components/EditorComponents/FileBar";
 import { ConsoleArea } from "../components/EditorComponents/ConsoleArea";
 import ProjectContext from "../contexts/projectContext";
 import {
@@ -18,10 +17,11 @@ import {
   // IFiles
 } from "../interfaces/IFile";
 import { fileAPI } from "../api/fileAPI";
+import { ScreenTitle } from "../components/ScreenTitle";
 
 type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
-const EditorScreen = ({ navigation }: EditorScreenProps) => {
+const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
   const { currentProject } = useContext(ProjectContext);
   const [isFocus, setIsFocus] = useState<boolean>(true);
   // const [projectFiles, setProjectFiles] = useState<IFiles[]>();
@@ -78,8 +78,8 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   return (
     <>
       {usedFile && editorCode ? (
-        <LayoutApp navigation={navigation}>
-          <FileBar isFocus={isFocus} isSaveOnline={isSaveOnline} />
+        <LayoutApp navigation={navigation} routeName={route.name}>
+          <ScreenTitle title={currentProject.name || ""} />
           <TouchableOpacity
             style={isFocus ? styles.container : styles.openContainer}
             onPress={() => changeFocus(false)}

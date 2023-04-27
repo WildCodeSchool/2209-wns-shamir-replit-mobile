@@ -9,16 +9,18 @@ import { StackNavigationProp } from "@react-navigation/stack";
 type LayoutAppProps = {
   children: ReactNode;
   navigation: StackNavigationProp<AppStackParamList>;
+  routeName?: string;
 };
-const LayoutApp = ({ children, navigation }: LayoutAppProps) => {
+const LayoutApp = ({ children, navigation, routeName }: LayoutAppProps) => {
   const goNav = (nav: keyof AppStackParamList) => {
     navigation.navigate(nav);
   };
+
   return (
     <>
       <Header />
       <View style={styles.childContainer}>{children}</View>
-      <FloatingMenu goNav={goNav} />
+      <FloatingMenu goNav={goNav} routeName={routeName} />
     </>
   );
 };
