@@ -15,7 +15,7 @@ import {
   TextInput,
 } from "@react-native-material/core";
 import { projectAPI } from "../api/projectAPI";
-import { BubbleProject } from "./BubbleProject";
+import { BallProjectList } from "./BallProjectList";
 
 const BTN_SIZE = 55;
 
@@ -143,12 +143,7 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
           </View>
         </View>
       </Modal>
-      {pListVisible ? (
-        <BubbleProject
-        // pListVisible={pListVisible}
-        // setpListVisible={setpListVisible}
-        />
-      ) : null}
+      {pListVisible ? <BallProjectList /> : null}
       {projectsShort.length > 0 ? (
         <>
           <TouchableOpacity

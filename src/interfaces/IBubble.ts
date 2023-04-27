@@ -1,4 +1,4 @@
 export type BallPositionScreen = {
-  absoluteX: number;
-  absoluteY: number;
+  x: number;
+  y: number;
 };
