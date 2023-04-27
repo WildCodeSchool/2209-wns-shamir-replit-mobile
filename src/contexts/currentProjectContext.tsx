@@ -1,6 +1,5 @@
 import React, { createContext, useState, useMemo, ReactNode } from "react";
 import { IProject } from "../interfaces/iProject";
-import { FilesCodeData } from "../interfaces/IFile";
 import { ExecutedCode } from "../api/executeCodeAPI";
 
 type CurrentProjectContextProviderProps = { children: ReactNode };

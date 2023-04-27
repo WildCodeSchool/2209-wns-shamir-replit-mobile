@@ -25,7 +25,7 @@ type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
 const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
   const { currentProject } = useContext(ProjectContext);
-  const { currentProject: currentProjectGood, setCurrentProject } = useContext(
+  const { currentProject: currentProjectGood } = useContext(
     CurrentProjectContext
   );
   const [isFocus, setIsFocus] = useState<boolean>(true);
