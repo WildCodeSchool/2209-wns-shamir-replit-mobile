@@ -57,49 +57,41 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   );
 
   const switchProjets = (buttonIndex: number) => (
-    <>
-      <TouchableOpacity
-        onPress={() => setpListVisible(!pListVisible)}
-        onPressIn={() => setPressedIndex(3)}
-        onPressOut={() => setPressedIndex(undefined)}
-        style={{
-          ...style.container,
-          ...(pressedIndex === 3 ? null : style.surface),
-          bottom: buttonIndex * 80 + 20,
-        }}
-        activeOpacity={0.5}
-      >
-        <Ionicons
-          name="create-outline"
-          size={(BTN_SIZE / 4) * 2.5}
-          color="white"
-        />
-      </TouchableOpacity>
-    </>
+    <TouchableOpacity
+      onPress={() => setpListVisible(!pListVisible)}
+      onPressIn={() => setPressedIndex(3)}
+      onPressOut={() => setPressedIndex(undefined)}
+      style={{
+        ...style.container,
+        ...(pressedIndex === 3 ? null : style.surface),
+        bottom: buttonIndex * 80 + 20,
+      }}
+      activeOpacity={0.5}
+    >
+      <Ionicons
+        name="create-outline"
+        size={(BTN_SIZE / 4) * 2.5}
+        color="white"
+      />
+    </TouchableOpacity>
   );
 
   const createNewProject = (buttonIndex: number) => (
-    <>
-      <TouchableOpacity
-        onPress={() => {
-          setCreateProjectVisible(true);
-        }}
-        onPressIn={() => setPressedIndex(2)}
-        onPressOut={() => setPressedIndex(undefined)}
-        style={{
-          ...style.container,
-          ...(pressedIndex === 2 ? null : style.surface),
-          bottom: buttonIndex * 80 + 20,
-        }}
-        activeOpacity={0.5}
-      >
-        <AntDesign name="plus" size={(BTN_SIZE / 4) * 2.5} color="white" />
-      </TouchableOpacity>
-      <NewProjectModal
-        createProjectVisible={createProjectVisible}
-        setCreateProjectVisible={setCreateProjectVisible}
-      />
-    </>
+    <TouchableOpacity
+      onPress={() => {
+        setCreateProjectVisible(true);
+      }}
+      onPressIn={() => setPressedIndex(2)}
+      onPressOut={() => setPressedIndex(undefined)}
+      style={{
+        ...style.container,
+        ...(pressedIndex === 2 ? null : style.surface),
+        bottom: buttonIndex * 80 + 20,
+      }}
+      activeOpacity={0.5}
+    >
+      <AntDesign name="plus" size={(BTN_SIZE / 4) * 2.5} color="white" />
+    </TouchableOpacity>
   );
 
   const showProjectList = (buttonIndex: number) => (
@@ -166,6 +158,10 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
         // setpListVisible={setpListVisible}
         />
       )}
+      <NewProjectModal
+        createProjectVisible={createProjectVisible}
+        setCreateProjectVisible={setCreateProjectVisible}
+      />
       {buttonList.map((button, buttonIndex) => button.action(buttonIndex))}
     </>
   );
