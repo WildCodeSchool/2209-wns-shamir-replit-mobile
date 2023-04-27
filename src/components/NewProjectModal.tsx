@@ -11,21 +11,21 @@ import {
 } from "@react-native-material/core";
 import { projectAPI } from "../api/projectAPI";
 import { newProjectModalStyle } from "../styles/newProjectModal.style";
+import { useGetProjects } from "../hooks/useGetProjects";
 
 type NewProjectModalProps = {
   createProjectVisible: boolean;
   setCreateProjectVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  getPersoProjects: () => void;
 };
 
 const NewProjectModal = ({
   createProjectVisible,
   setCreateProjectVisible,
-  getPersoProjects,
 }: NewProjectModalProps) => {
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const { getPersoProjects } = useGetProjects();
 
   const handleSubmitCreateProject = async () => {
     const newProject = {
