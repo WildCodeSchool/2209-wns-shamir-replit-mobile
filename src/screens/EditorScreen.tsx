@@ -10,7 +10,6 @@ import { LayoutApp } from "../components/LayoutApp";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AppStackParamList } from "../Navigation";
 import { CodeArea } from "../components/EditorComponents/CodeArea";
-import { FileBar } from "../components/EditorComponents/FileBar";
 import { ConsoleArea } from "../components/EditorComponents/ConsoleArea";
 import ProjectContext from "../contexts/projectContext";
 import {
@@ -18,6 +17,7 @@ import {
   // IFiles
 } from "../interfaces/IFile";
 import { fileAPI } from "../api/fileAPI";
+import { ScreenTitle } from "../components/ScreenTitle";
 
 type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
@@ -79,7 +79,7 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
     <>
       {usedFile && editorCode ? (
         <LayoutApp navigation={navigation} routeName={route.name}>
-          <FileBar isFocus={isFocus} isSaveOnline={isSaveOnline} />
+          <ScreenTitle title={currentProject.name || ""} />
           <TouchableOpacity
             style={isFocus ? styles.container : styles.openContainer}
             onPress={() => changeFocus(false)}
