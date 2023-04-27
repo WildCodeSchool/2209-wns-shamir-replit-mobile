@@ -14,6 +14,9 @@ export const floatingMenuStyle = (BTN_SIZE: number) =>
       right: 20,
       zIndex: 1,
     },
+    executeCode: {
+      bottom: 260,
+    },
     createProject: {
       bottom: 100,
     },

@@ -21,7 +21,7 @@ import { fileAPI } from "../api/fileAPI";
 
 type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
-const EditorScreen = ({ navigation }: EditorScreenProps) => {
+const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
   const { currentProject } = useContext(ProjectContext);
   const [isFocus, setIsFocus] = useState<boolean>(true);
   // const [projectFiles, setProjectFiles] = useState<IFiles[]>();
@@ -78,7 +78,7 @@ const EditorScreen = ({ navigation }: EditorScreenProps) => {
   return (
     <>
       {usedFile && editorCode ? (
-        <LayoutApp navigation={navigation}>
+        <LayoutApp navigation={navigation} routeName={route.name}>
           <FileBar isFocus={isFocus} isSaveOnline={isSaveOnline} />
           <TouchableOpacity
             style={isFocus ? styles.container : styles.openContainer}
