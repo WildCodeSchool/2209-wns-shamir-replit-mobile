@@ -1,7 +1,7 @@
 // Description: Floating menu pour l'écran d'accueil (bouton editeur et projet)
 import { TouchableOpacity } from "react-native";
 import ProjectContext from "../contexts/projectContext";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { AppStackParamList } from "../Navigation";
@@ -14,9 +14,8 @@ const BTN_SIZE = 55;
 
 type FloatingMenuProps = {
   goNav: (nav: keyof AppStackParamList) => void;
-  getPersoProjects: () => void;
 };
-const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
+const FloatingMenu = ({ goNav }: FloatingMenuProps) => {
   const { projectsShort } = useContext(ProjectContext);
   const [pListVisible, setpListVisible] = useState(false);
   const [createProjectVisible, setCreateProjectVisible] = useState(false);
@@ -29,10 +28,6 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
   };
 
   const style = floatingMenuStyle(BTN_SIZE);
-
-  useEffect(() => {
-    console.log("pressedIndex", pressedIndex);
-  });
 
   return (
     <>
@@ -74,7 +69,6 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
       <NewProjectModal
         createProjectVisible={createProjectVisible}
         setCreateProjectVisible={setCreateProjectVisible}
-        getPersoProjects={getPersoProjects}
       />
       {pListVisible == true && (
         <BubbleProject

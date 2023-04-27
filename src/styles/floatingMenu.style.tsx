@@ -5,7 +5,7 @@ export const floatingMenuStyle = (BTN_SIZE: number) =>
   StyleSheet.create({
     container: {
       alignItems: "center",
-      backgroundColor: variables.colorGreen,
+      backgroundColor: variables.colorMainDark,
       borderRadius: BTN_SIZE / 2,
       justifyContent: "center",
       position: "absolute",
@@ -30,7 +30,7 @@ export const floatingMenuStyle = (BTN_SIZE: number) =>
     surface: {
       height: BTN_SIZE,
       width: BTN_SIZE,
-      backgroundColor: variables.colorGreen,
+      backgroundColor: variables.colorMainDark,
       borderBottomEndRadius: BTN_SIZE / 2,
       borderBottomStartRadius: BTN_SIZE / 2,
       borderTopEndRadius: BTN_SIZE / 2,

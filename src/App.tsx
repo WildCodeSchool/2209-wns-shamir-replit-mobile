@@ -12,17 +12,20 @@ const client = new ApolloClient({
 });
 
 import Navigation from "./Navigation";
+import { ProjectListContextProvider } from "./contexts/projectListContext";
 
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <IsLoggedContextProvider>
-        <ProjectContextProvider>
-          <NavigationContainer>
-            <Navigation />
-          </NavigationContainer>
-        </ProjectContextProvider>
-      </IsLoggedContextProvider>
+      <ProjectListContextProvider>
+        <IsLoggedContextProvider>
+          <ProjectContextProvider>
+            <NavigationContainer>
+              <Navigation />
+            </NavigationContainer>
+          </ProjectContextProvider>
+        </IsLoggedContextProvider>
+      </ProjectListContextProvider>
     </ApolloProvider>
   );
 }
