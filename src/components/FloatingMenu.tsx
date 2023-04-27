@@ -1,7 +1,7 @@
 // Description: Floating menu pour l'écran d'accueil (bouton editeur et projet)
 import { TouchableOpacity } from "react-native";
 import ProjectContext from "../contexts/projectContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { AppStackParamList } from "../Navigation";
@@ -20,10 +20,19 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
   const { projectsShort } = useContext(ProjectContext);
   const [pListVisible, setpListVisible] = useState(false);
   const [createProjectVisible, setCreateProjectVisible] = useState(false);
+  const [pressedIndex, setPressedIndex] = useState<number | undefined>(
+    undefined
+  );
 
   const handleNav = (nav: keyof AppStackParamList) => {
     goNav(nav);
   };
+
+  const style = floatingMenuStyle(BTN_SIZE);
+
+  useEffect(() => {
+    console.log("pressedIndex", pressedIndex);
+  });
 
   return (
     <>
@@ -32,10 +41,14 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
           handleNav("ProjectsScreen");
           setpListVisible(false);
         }}
-        style={[
-          floatingMenuStyle(BTN_SIZE).container,
-          floatingMenuStyle(BTN_SIZE).projetScreen,
-        ]}
+        onPressIn={() => setPressedIndex(1)}
+        onPressOut={() => setPressedIndex(undefined)}
+        style={{
+          ...style.container,
+          ...style.projetScreen,
+          ...(pressedIndex === 1 ? null : style.surface),
+        }}
+        activeOpacity={0.5}
       >
         <Ionicons
           name="folder-open-outline"
@@ -44,11 +57,17 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => setCreateProjectVisible(true)}
-        style={[
-          floatingMenuStyle(BTN_SIZE).container,
-          floatingMenuStyle(BTN_SIZE).createProject,
-        ]}
+        onPress={() => {
+          setCreateProjectVisible(true);
+        }}
+        onPressIn={() => setPressedIndex(2)}
+        onPressOut={() => setPressedIndex(undefined)}
+        style={{
+          ...style.container,
+          ...style.createProject,
+          ...(pressedIndex === 2 ? null : style.surface),
+        }}
+        activeOpacity={0.5}
       >
         <AntDesign name="plus" size={(BTN_SIZE / 4) * 2.5} color="white" />
       </TouchableOpacity>
@@ -64,21 +83,23 @@ const FloatingMenu = ({ goNav, getPersoProjects }: FloatingMenuProps) => {
         />
       )}
       {projectsShort.length > 0 && (
-        <>
-          <TouchableOpacity
-            onPress={() => setpListVisible(!pListVisible)}
-            style={[
-              floatingMenuStyle(BTN_SIZE).container,
-              floatingMenuStyle(BTN_SIZE).editorScreen,
-            ]}
-          >
-            <Ionicons
-              name="create-outline"
-              size={(BTN_SIZE / 4) * 2.5}
-              color="white"
-            />
-          </TouchableOpacity>
-        </>
+        <TouchableOpacity
+          onPress={() => setpListVisible(!pListVisible)}
+          onPressIn={() => setPressedIndex(3)}
+          onPressOut={() => setPressedIndex(undefined)}
+          style={{
+            ...style.container,
+            ...style.editorScreen,
+            ...(pressedIndex === 3 ? null : style.surface),
+          }}
+          activeOpacity={0.5}
+        >
+          <Ionicons
+            name="create-outline"
+            size={(BTN_SIZE / 4) * 2.5}
+            color="white"
+          />
+        </TouchableOpacity>
       )}
     </>
   );
