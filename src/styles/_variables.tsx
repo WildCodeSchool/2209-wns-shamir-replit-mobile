@@ -5,4 +5,5 @@ export const variables = {
   colorWhite: "white",
   shadowColor: "#000",
   colorBg: "#c5e4e3",
+  colorGreen: "green",
 };
