@@ -1,16 +1,30 @@
 // Zone de la console pour l'editeur
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { ExecutedCode } from "../../api/executeCodeAPI";
 
-// type Props = {
-//   isFocus: boolean;
-// };
+type ConsoleAreaProps = {
+  executionResult:
+    | {
+        result: ExecutedCode[];
+        nbExecutions: number | undefined;
+      }
+    | undefined;
+};
 
-const ConsoleArea = () => (
+const ConsoleArea = ({ executionResult }: ConsoleAreaProps) => (
   <View style={styles.container}>
     <Text style={styles.title}>ConsoleArea</Text>
     <View style={styles.containerCode}>
-      <Text style={styles.bodyCode}>my return here</Text>
+      {executionResult &&
+        executionResult.result.map((res, resIndex) => (
+          <Text
+            key={resIndex}
+            style={{ ...styles.bodyCode, ...styles[res.type] }}
+          >
+            {res.message}
+          </Text>
+        ))}
     </View>
   </View>
 );
@@ -21,8 +35,18 @@ const colorYellow = "black";
 const colorWhite = "white";
 const colorBlack = "black";
 const styles = StyleSheet.create({
-  bodyCode: {
+  bodyCode: {},
+  error: {
+    color: "red",
+  },
+  info: {
+    color: "blue",
+  },
+  log: {
     color: colorWhite,
+  },
+  warn: {
+    color: "yellow",
   },
   container: {
     backgroundColor: colorYellow,
@@ -30,6 +54,7 @@ const styles = StyleSheet.create({
   },
   containerCode: {
     backgroundColor: colorBlack,
+    paddingLeft: 5,
   },
   title: {
     fontSize: 35,

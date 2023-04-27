@@ -18,16 +18,21 @@ import {
 } from "../interfaces/IFile";
 import { fileAPI } from "../api/fileAPI";
 import { ScreenTitle } from "../components/ScreenTitle";
+import CurrentProjectContext from "../contexts/currentProjectContext";
+import EditorCodeContext from "../contexts/editorCodeContext";
 
 type EditorScreenProps = StackScreenProps<AppStackParamList, "EditorScreen">;
 
 const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
   const { currentProject } = useContext(ProjectContext);
+  const { currentProject: currentProjectGood, setCurrentProject } = useContext(
+    CurrentProjectContext
+  );
   const [isFocus, setIsFocus] = useState<boolean>(true);
   // const [projectFiles, setProjectFiles] = useState<IFiles[]>();
   //  const [filesCodeArr, setFilesCodeArr] = useState<FilesCodeData[]>();
   const [usedFile, setUsedFile] = useState<FilesCodeData>();
-  const [editorCode, setEditorCode] = useState("");
+  const { editorCode, setEditorCode } = useContext(EditorCodeContext);
   const [isSaveOnline, setIsSaveOnline] = useState(true);
 
   const changeFocus = (value: boolean) => {
@@ -47,7 +52,12 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
   ) => {
     if (usedFile) {
       try {
-        return await fileAPI.updateFileOnline(codeToPush, fileId, projectId);
+        return await fileAPI.updateFileOnline({
+          codeToPush,
+          fileId,
+          projectId,
+          socketId: "",
+        });
       } catch (e) {
         return false;
       }
@@ -65,7 +75,14 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
       const req = await fileAPI.getAllFilesByProjectId(projectId);
       // setProjectFiles(req.getFilesByProjectId);
       // setFilesCodeArr(req.getCodeFiles);
+
+      console.log("req.getCodeFiles", req.getCodeFiles);
+
       setUsedFile(req.getCodeFiles[0]);
+      // setCurrentProject({
+      //   ...currentProjectGood,
+      //   fileCodeData: req.getCodeFiles[0],
+      // });
       if (editorCode !== req.getCodeFiles[0].code)
         updateCode(req.getCodeFiles[0].code);
     }
@@ -100,7 +117,7 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
             style={isFocus ? styles.openContainer : styles.container}
             onPress={() => changeFocus(true)}
           >
-            <ConsoleArea />
+            <ConsoleArea executionResult={currentProjectGood.executionResult} />
           </TouchableOpacity>
         </LayoutApp>
       ) : (
