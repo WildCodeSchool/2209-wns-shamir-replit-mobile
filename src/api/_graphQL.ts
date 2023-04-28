@@ -34,6 +34,7 @@ const getToken = async () => (await AsyncStorage.getItem("token")) || "{}";
 // On exporte l'instance d'Apollo Client
 export const api = async () => {
   // On initialise Apollo Client
+  console.log(useUrl);
   const params: ApolloClientOptions<unknown> = {
     uri: `${useUrl}/graphql`,
     cache: new InMemoryCache(),

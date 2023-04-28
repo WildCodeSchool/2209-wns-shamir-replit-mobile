@@ -12,6 +12,8 @@ import { ScreenTitle } from "../components/ScreenTitle";
 import { TextInput } from "@react-native-material/core";
 import ProjectListContext from "../contexts/projectListContext";
 import { useGetProjects } from "../hooks/useGetProjects";
+import Carousell from "../components/Carousel";
+import { FilesCodeData } from "../interfaces/IFile";
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 const ProjectsScreen = ({ navigation }: Props) => {
@@ -54,6 +56,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
     getPublicProjects();
   }, [persoProjToggle, publicsProjToggle]);
 
+  //filteredPersoProject
   return (
     <LayoutApp navigation={navigation}>
       <View style={commonStyles.containerTop}>
@@ -70,8 +73,12 @@ const ProjectsScreen = ({ navigation }: Props) => {
           setIsVisible={setPersoProjToggle}
         />
         {persoProjToggle && filteredPersoProjects !== undefined ? (
-          <ProjectList data={filteredPersoProjects} goNav={goNav} />
+          <>
+            {/* <ProjectList data={filteredPersoProjects} goNav={goNav} /> */}
+            <Carousell data={filteredPersoProjects} />
+          </>
         ) : null}
+
         <LayoutCategory
           name="Projets partagés avec moi"
           isVisible={sharedProjToggle}

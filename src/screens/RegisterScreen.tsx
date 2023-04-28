@@ -27,7 +27,8 @@ const RegisterScreen = ({ navigation }: Props) => {
     );
     const verifLogin = fieldLogin.match(/^[a-zA-Z0-9_\-]{3,15}$/);
     const verifPassword = fieldPassword.match(
-      /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
+      // /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/
+      "azerty"
     );
     setEmailErrors(verifMail === null);
     setLoginErrors(verifLogin === null);
