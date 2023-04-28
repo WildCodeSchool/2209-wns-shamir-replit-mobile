@@ -23,14 +23,16 @@ const fileRequest = {
   `,
   updateCodeFile: gql`
     mutation UpdateCodeFile(
-      $contentData: String!
+      $socketIds: String!
       $fileId: Float!
       $projectId: Float!
+      $contentData: String!
     ) {
       updateCodeFile(
-        contentData: $contentData
+        socketIds: $socketIds
         fileId: $fileId
         projectId: $projectId
+        contentData: $contentData
       )
     }
   `,

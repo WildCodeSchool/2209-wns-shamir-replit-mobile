@@ -9,6 +9,9 @@ import { useContext } from "react";
 import { BubbleProject } from "./BubbleProject";
 import NewProjectModal from "./NewProjectModal";
 import { floatingMenuStyle } from "../styles/floatingMenu.style";
+import { executeCodeAPI } from "../api/executeCodeAPI";
+import CurrentProjectContext from "../contexts/currentProjectContext";
+import EditorCodeContext from "../contexts/editorCodeContext";
 
 const BTN_SIZE = 55;
 
@@ -24,6 +27,11 @@ type FloatingMenuProps = {
 
 const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   const { projectsShort } = useContext(ProjectContext);
+  const { currentProject, setCurrentProject } = useContext(
+    CurrentProjectContext
+  );
+  const { editorCode } = useContext(EditorCodeContext);
+
   const [pListVisible, setpListVisible] = useState(false);
   const [createProjectVisible, setCreateProjectVisible] = useState(false);
   const [pressedIndex, setPressedIndex] = useState<number | undefined>(
@@ -31,8 +39,22 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   );
   const [buttonList, setButtonList] = useState<ButtonItem[]>([]);
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const executeCode = () => {};
+  const executeCode = async () => {
+    const code = editorCode;
+    const projectId = currentProject.id;
+    console.log("executedCode", code, projectId);
+
+    if (code && projectId) {
+      const executedCode = (
+        await executeCodeAPI.sendCode(code, parseInt(projectId, 10))
+      ).data;
+
+      console.log("executedCode", executedCode);
+
+      if (executedCode)
+        setCurrentProject({ ...currentProject, executionResult: executedCode });
+    }
+  };
 
   const handleNav = (nav: keyof AppStackParamList) => {
     goNav(nav);
@@ -42,6 +64,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
 
   const executeCodeButton = (buttonIndex: number) => (
     <TouchableOpacity
+      key={buttonIndex}
       onPress={executeCode}
       onPressIn={() => setPressedIndex(4)}
       onPressOut={() => setPressedIndex(undefined)}
@@ -58,6 +81,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
 
   const switchProjets = (buttonIndex: number) => (
     <TouchableOpacity
+      key={buttonIndex}
       onPress={() => setpListVisible(!pListVisible)}
       onPressIn={() => setPressedIndex(3)}
       onPressOut={() => setPressedIndex(undefined)}
@@ -78,6 +102,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
 
   const createNewProject = (buttonIndex: number) => (
     <TouchableOpacity
+      key={buttonIndex}
       onPress={() => {
         setCreateProjectVisible(true);
       }}
@@ -96,6 +121,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
 
   const showProjectList = (buttonIndex: number) => (
     <TouchableOpacity
+      key={buttonIndex}
       onPress={() => {
         handleNav("ProjectsScreen");
         setpListVisible(false);
