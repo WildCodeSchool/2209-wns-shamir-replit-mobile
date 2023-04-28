@@ -45,6 +45,10 @@ export const fileAPI = {
     socketId,
   }: updateFileOnlineProps) => {
     try {
+      const updatedLines = Array(codeToPush.split("\n").length)
+        .fill(undefined)
+        .map((_, index) => index);
+
       const api = await graphQLApi();
       const { data } = await api.mutate({
         mutation: fileRequest.updateCodeFile,
@@ -53,6 +57,7 @@ export const fileAPI = {
           fileId: fileId,
           projectId: projectId,
           socketIds: socketId,
+          updatedLines,
         },
       });
       return JSON.parse(data.updateCodeFile) as updateRes;
