@@ -6,6 +6,13 @@ export type updateRes = {
   success: boolean;
 };
 
+type updateFileOnlineProps = {
+  codeToPush: string;
+  fileId: number;
+  projectId: number;
+  socketId: string;
+};
+
 type ResGetFilesAndCode = {
   getFilesByProjectId: IFiles[];
   getCodeFiles: FilesCodeData[];
@@ -31,11 +38,12 @@ export const fileAPI = {
       throw new Error("Erreur getAllFilesByProjectId");
     }
   },
-  updateFileOnline: async (
-    codeToPush: string,
-    fileId: number,
-    projectId: number
-  ) => {
+  updateFileOnline: async ({
+    codeToPush,
+    fileId,
+    projectId,
+    socketId,
+  }: updateFileOnlineProps) => {
     try {
       const api = await graphQLApi();
       const { data } = await api.mutate({
@@ -44,6 +52,7 @@ export const fileAPI = {
           contentData: codeToPush,
           fileId: fileId,
           projectId: projectId,
+          socketIds: socketId,
         },
       });
       return JSON.parse(data.updateCodeFile) as updateRes;

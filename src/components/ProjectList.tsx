@@ -10,6 +10,7 @@ import { projectAPI } from "../api/projectAPI";
 import ProjectContext from "../contexts/projectContext";
 import { IProject } from "../interfaces/iProject";
 import { AppStackParamList } from "../Navigation";
+import CurrentProjectContext from "../contexts/currentProjectContext";
 
 type Props = {
   data: IProject[];
@@ -19,11 +20,15 @@ type Props = {
 const ProjectList = ({ data, goNav }: Props) => {
   const { setCurrentProject, setProjectsShort, projectsShort, currentProject } =
     useContext(ProjectContext);
+  const { setCurrentProject: setCurrentProjectGood } = useContext(
+    CurrentProjectContext
+  );
 
-  const handleOpenProject = async (projet: IProject) => {
-    setCurrentProject(projet);
-    addProjectShort(projet);
-    projectAPI.addView(projet.id);
+  const handleOpenProject = async (project: IProject) => {
+    setCurrentProject(project);
+    addProjectShort(project);
+    setCurrentProjectGood(project);
+    projectAPI.addView(project.id);
     goNav("EditorScreen");
   };
 

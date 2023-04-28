@@ -6,6 +6,7 @@ import CodeEditor, {
 
 import React, { useEffect } from "react";
 import { updateRes } from "../../api/fileAPI";
+// import CurrentProjectContext from "../../contexts/currentProjectContext";
 
 type Props = {
   isFocus: boolean;
@@ -31,9 +32,21 @@ const CodeArea = ({
   fileId,
   projectId,
 }: Props) => {
+  // const { currentProject: currentProjectGood, setCurrentProject } = useContext(
+  //   CurrentProjectContext
+  // );
+
   const updateEditText = async (value: string) => {
     updateSaveOnline(false);
     updateCode(value);
+
+    // const fileCodeData = currentProjectGood.fileCodeData;
+
+    // if (fileCodeData)
+    //   setCurrentProject({
+    //     ...currentProjectGood,
+    //     fileCodeData: { ...fileCodeData, code: value },
+    //   });
   };
 
   useEffect(() => {

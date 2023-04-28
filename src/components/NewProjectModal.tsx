@@ -63,6 +63,7 @@ const NewProjectModal = ({
           <Text style={newProjectModalStyle.modalTitle}>Create Project</Text>
           <TextInput
             label="Nom du projet"
+            color="#00625f"
             maxLength={20}
             style={newProjectModalStyle.inputForm}
             onChange={(e) => setProjectName(e.nativeEvent.text)}
@@ -75,6 +76,7 @@ const NewProjectModal = ({
           <TextInput
             multiline={true}
             numberOfLines={5}
+            color="#00625f"
             label="Description du projet"
             style={newProjectModalStyle.inputArea}
             onChange={(e) => setProjectDescription(e.nativeEvent.text)}
@@ -93,6 +95,8 @@ const NewProjectModal = ({
               >
                 <Text>Public</Text>
                 <Switch
+                  thumbColor="#00625f"
+                  trackColor={{ true: "#45c7c3" }}
                   value={isPublic}
                   onValueChange={() => setIsPublic(!isPublic)}
                 />
@@ -104,6 +108,7 @@ const NewProjectModal = ({
           <Button
             title="Create"
             contentContainerStyle={{ fontSize: 20 }}
+            color="#00625f"
             trailing={(props) => <Icon name="send" {...props} />}
             onPress={handleSubmitCreateProject}
           />
