@@ -30,7 +30,7 @@ type FloatingMenuProps = {
 const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   const { projectsShort, setProjectsShort, setCurrentProject, currentProject } =
     useContext(ProjectContext);
-  const { currentProject: currentProject2, setCurrentProject: setCurrentProject2 } = useContext(
+  const { setCurrentProject: setCurrentProject2 } = useContext(
     CurrentProjectContext
   );
   const { editorCode } = useContext(EditorCodeContext);
@@ -55,7 +55,10 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       console.log("executedCode", executedCode);
 
       if (executedCode)
-        setCurrentProject2({ ...currentProject, executionResult: executedCode });
+        setCurrentProject2({
+          ...currentProject,
+          executionResult: executedCode,
+        });
     }
   };
 

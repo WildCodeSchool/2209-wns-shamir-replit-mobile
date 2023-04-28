@@ -18,7 +18,7 @@ type Props = {
 };
 
 const ProjectList = ({ data, goNav }: Props) => {
-  const { setCurrentProject, setProjectsShort, projectsShort, currentProject } =
+  const { setCurrentProject, setProjectsShort, projectsShort } =
     useContext(ProjectContext);
   const { setCurrentProject: setCurrentProjectGood } = useContext(
     CurrentProjectContext

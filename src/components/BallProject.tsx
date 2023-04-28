@@ -65,7 +65,7 @@ const BallProject = ({
 
   const longPress = Gesture.LongPress()
     .minDuration(300)
-    .onStart((e) => {
+    .onStart(() => {
       isLongPressed.value = true;
     });
 
@@ -90,7 +90,7 @@ const BallProject = ({
         scaleBall.value = withSpring(1);
       }
     })
-    .onTouchesMove((e, state) => {
+    .onTouchesMove((_, state) => {
       if (isLongPressed.value && !isPanActivated.value) {
         isPanActivated.value = true;
         state.activate();
@@ -109,8 +109,6 @@ const BallProject = ({
       }
     })
     .onEnd(() => {
-      console.log("onEnd");
-
       savedBall.value = {
         x: offsetX.value,
         y: offsetY.value,
@@ -120,11 +118,7 @@ const BallProject = ({
         y: ballPagePosY.value,
       };
     })
-    .onFinalize((e) => {
-      console.log("onFinalize", itemIndex);
-      console.log("1 Ballpressed", ballPressed.value);
-
-      console.log("1 Ballpressed", ballPressed.value);
+    .onFinalize(() => {
       isLongPressed.value = false;
       isPanActivated.value = false;
       if (
@@ -133,11 +127,9 @@ const BallProject = ({
         ballPagePosX.value > binPosition.value.x - 55
       ) {
         offsetY.value = withDelay(300, withSpring(binPosition.value.y + 65));
-        console.log(ballPressed.value);
         ballPressed.value = [...ballPressed.value]
           .filter((_, index) => index !== itemIndex)
           .map((n) => n);
-        console.log(ballPressed.value);
 
         runOnJS(removeProjectShort)(item);
       }
@@ -146,16 +138,14 @@ const BallProject = ({
   const composed = Gesture.Simultaneous(pan, tap, longPress);
 
   // ball animated style
-  const ballAnimated = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: withSpring(offsetX.value) },
-        { translateY: withSpring(offsetY.value) },
-        { scale: scaleBall.value },
-      ],
-      opacity: ballOpacity.value,
-    };
-  });
+  const ballAnimated = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: withSpring(offsetX.value) },
+      { translateY: withSpring(offsetY.value) },
+      { scale: scaleBall.value },
+    ],
+    opacity: ballOpacity.value,
+  }));
 
   const styles = StyleSheet.create({
     card: {

@@ -38,21 +38,19 @@ const BallProjectList = ({
   );
 
   // bin animated style
-  const binAnimated = useAnimatedStyle(() => {
-    return {
-      opacity: ballPressed.value.includes(true)
-        ? withTiming(1)
-        : withDelay(300, withTiming(0)),
-      transform: [
-        { scale: withSpring(ballPressed.value.includes(true) ? 1.3 : 1) },
-        {
-          translateY: ballPressed.value.includes(true)
-            ? withSpring(0)
-            : withDelay(300, withSpring(65)),
-        },
-      ],
-    };
-  });
+  const binAnimated = useAnimatedStyle(() => ({
+    opacity: ballPressed.value.includes(true)
+      ? withTiming(1)
+      : withDelay(300, withTiming(0)),
+    transform: [
+      { scale: withSpring(ballPressed.value.includes(true) ? 1.3 : 1) },
+      {
+        translateY: ballPressed.value.includes(true)
+          ? withSpring(0)
+          : withDelay(300, withSpring(65)),
+      },
+    ],
+  }));
 
   return (
     <GestureHandlerRootView style={styles.container}>

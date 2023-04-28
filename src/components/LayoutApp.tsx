@@ -1,6 +1,6 @@
 // Description: Layout de l'application contenant le header et le menu flottant
 import { StyleSheet, View } from "react-native";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { Header } from "./Header";
 import { FloatingMenu } from "./FloatingMenu";
 import { AppStackParamList } from "../Navigation";
