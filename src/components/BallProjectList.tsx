@@ -7,7 +7,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ProjectContext from "../contexts/projectContext";
 import { AntDesign } from "@expo/vector-icons";
@@ -73,7 +73,6 @@ const BallProjectList = ({
       <Animated.View
         style={[styles.bin, binAnimated]}
         onLayout={() => {
-          console.log("onLayout");
           binPosition.value = {
             x: width / 2,
             y: height - binSize / 2,

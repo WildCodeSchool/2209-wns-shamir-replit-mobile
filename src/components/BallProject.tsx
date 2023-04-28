@@ -12,6 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import { IProject } from "../interfaces/iProject";
+import { variables } from "../styles/_variables";
 
 type BallProjectProps = {
   item: IProject;
@@ -65,8 +66,6 @@ const BallProject = ({
   const longPress = Gesture.LongPress()
     .minDuration(300)
     .onStart((e) => {
-      console.log("longpress Event", e);
-      console.log("long press activated");
       isLongPressed.value = true;
     });
 
@@ -93,7 +92,6 @@ const BallProject = ({
     })
     .onTouchesMove((e, state) => {
       if (isLongPressed.value && !isPanActivated.value) {
-        console.log("pan gesture activated");
         isPanActivated.value = true;
         state.activate();
       }
@@ -111,6 +109,8 @@ const BallProject = ({
       }
     })
     .onEnd(() => {
+      console.log("onEnd");
+
       savedBall.value = {
         x: offsetX.value,
         y: offsetY.value,
@@ -120,8 +120,11 @@ const BallProject = ({
         y: ballPagePosY.value,
       };
     })
-    .onFinalize(() => {
-      ballPressed.value = [...ballPressed.value].map(() => false);
+    .onFinalize((e) => {
+      console.log("onFinalize", itemIndex);
+      console.log("1 Ballpressed", ballPressed.value);
+
+      console.log("1 Ballpressed", ballPressed.value);
       isLongPressed.value = false;
       isPanActivated.value = false;
       if (
@@ -130,8 +133,13 @@ const BallProject = ({
         ballPagePosX.value > binPosition.value.x - 55
       ) {
         offsetY.value = withDelay(300, withSpring(binPosition.value.y + 65));
+        console.log(ballPressed.value);
+        ballPressed.value = [...ballPressed.value]
+          .filter((_, index) => index !== itemIndex)
+          .map((n) => n);
+        console.log(ballPressed.value);
+
         runOnJS(removeProjectShort)(item);
-        console.log("item", item);
       }
     });
 
@@ -169,7 +177,7 @@ const BallProject = ({
       width: ballSize,
       height: ballSize,
       borderRadius: 55 / 2,
-      backgroundColor: "blue",
+      backgroundColor: variables.colorMain,
       alignSelf: "center",
       justifyContent: "center",
       alignItems: "center",

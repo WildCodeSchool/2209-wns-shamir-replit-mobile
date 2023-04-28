@@ -43,7 +43,7 @@ export function ProjectContextProvider({
       projectsShort,
       setProjectsShort,
     }),
-    [currentProject]
+    [currentProject, projectsShort]
   );
   return (
     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

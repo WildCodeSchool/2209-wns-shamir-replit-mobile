@@ -14,7 +14,7 @@ import ProjectListContext from "../contexts/projectListContext";
 import { useGetProjects } from "../hooks/useGetProjects";
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
-const ProjectsScreen = ({ navigation }: Props) => {
+const ProjectsScreen = ({ navigation, route }: Props) => {
   const [searchText, setSearchText] = useState("");
   const [persoProjToggle, setPersoProjToggle] = useState(false);
   const [publicsProjToggle, setPublicsProjToggle] = useState(false);
@@ -55,7 +55,7 @@ const ProjectsScreen = ({ navigation }: Props) => {
   }, [persoProjToggle, publicsProjToggle]);
 
   return (
-    <LayoutApp navigation={navigation}>
+    <LayoutApp navigation={navigation} routeName={route.name}>
       <View style={commonStyles.containerTop}>
         <ScreenTitle title="Liste des projets" />
         <TextInput
