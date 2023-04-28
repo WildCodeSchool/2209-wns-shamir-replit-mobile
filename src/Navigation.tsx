@@ -1,8 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useContext } from "react";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import EditorScreen from "./screens/EditorScreen";
 import LoginScreen from "./screens/LoginScreen";
 import LostPasswordScreen from "./screens/LostPasswordScreen";
@@ -35,23 +33,6 @@ export default function Navigation() {
       return false;
     }
   };
-
-  // const checkToken = async () => {
-  //   try {
-  //     const token = await AsyncStorage.getItem("token");
-  //     if (token) {
-  //       setIsLogged(true);
-  //     } else {
-  //       setIsLogged(false);
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkToken();
-  // }, []);
 
   return (
     <>

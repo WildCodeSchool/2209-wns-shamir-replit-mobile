@@ -1,4 +1,3 @@
-// Description: This screen is the main screen of the app. It contains the categories of projects and the search bar.
 import { View } from "react-native";
 import { LayoutCategory } from "../components/LayoutCategory";
 import { LayoutApp } from "../components/LayoutApp";
@@ -12,6 +11,7 @@ import { ScreenTitle } from "../components/ScreenTitle";
 import { TextInput } from "@react-native-material/core";
 import ProjectListContext from "../contexts/projectListContext";
 import { useGetProjects } from "../hooks/useGetProjects";
+import Carousell from "../components/Carousel";
 type Props = StackScreenProps<AppStackParamList, "ProjectsScreen">;
 
 const ProjectsScreen = ({ navigation, route }: Props) => {
@@ -70,8 +70,9 @@ const ProjectsScreen = ({ navigation, route }: Props) => {
           setIsVisible={setPersoProjToggle}
         />
         {persoProjToggle && filteredPersoProjects !== undefined ? (
-          <ProjectList data={filteredPersoProjects} goNav={goNav} />
+          <Carousell data={filteredPersoProjects} goNav={goNav} />
         ) : null}
+
         <LayoutCategory
           name="Projets partagés avec moi"
           isVisible={sharedProjToggle}
