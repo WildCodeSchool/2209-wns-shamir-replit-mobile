@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import "dotenv/config";
 
-export default{
+export default {
   expo: {
     name: "shamir-replit-react-native",
     slug: "shamir-replit-react-native",
@@ -31,7 +32,7 @@ export default{
     },
     extra: {
       BACK_PORT: process.env.BACK_PORT,
-      BACK_URL: process.env.BACK_URL
-    }
+      BACK_URL: process.env.BACK_URL,
+    },
   },
 };

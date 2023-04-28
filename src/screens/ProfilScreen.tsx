@@ -1,4 +1,3 @@
-// Description: ProfilScreen
 import { Text, View } from "react-native";
 import React from "react";
 import { LayoutApp } from "../components/LayoutApp";

@@ -12,10 +12,7 @@ import { AppStackParamList } from "../Navigation";
 import { CodeArea } from "../components/EditorComponents/CodeArea";
 import { ConsoleArea } from "../components/EditorComponents/ConsoleArea";
 import ProjectContext from "../contexts/projectContext";
-import {
-  FilesCodeData,
-  // IFiles
-} from "../interfaces/IFile";
+import { FilesCodeData } from "../interfaces/IFile";
 import { fileAPI } from "../api/fileAPI";
 import { ScreenTitle } from "../components/ScreenTitle";
 import CurrentProjectContext from "../contexts/currentProjectContext";
@@ -29,8 +26,6 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
     CurrentProjectContext
   );
   const [isFocus, setIsFocus] = useState<boolean>(true);
-  // const [projectFiles, setProjectFiles] = useState<IFiles[]>();
-  //  const [filesCodeArr, setFilesCodeArr] = useState<FilesCodeData[]>();
   const [usedFile, setUsedFile] = useState<FilesCodeData>();
   const { editorCode, setEditorCode } = useContext(EditorCodeContext);
   const [isSaveOnline, setIsSaveOnline] = useState(true);
@@ -73,16 +68,9 @@ const EditorScreen = ({ navigation, route }: EditorScreenProps) => {
     const projectId = currentProject.id;
     if (projectId !== undefined) {
       const req = await fileAPI.getAllFilesByProjectId(projectId);
-      // setProjectFiles(req.getFilesByProjectId);
-      // setFilesCodeArr(req.getCodeFiles);
-
-      console.log("req.getCodeFiles", req.getCodeFiles);
 
       setUsedFile(req.getCodeFiles[0]);
-      // setCurrentProject({
-      //   ...currentProjectGood,
-      //   fileCodeData: req.getCodeFiles[0],
-      // });
+
       if (editorCode !== req.getCodeFiles[0].code)
         updateCode(req.getCodeFiles[0].code);
     }

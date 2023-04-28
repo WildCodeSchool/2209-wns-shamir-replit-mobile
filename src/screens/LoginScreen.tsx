@@ -1,4 +1,3 @@
-// Description: Login screen
 import { Text, View, TouchableOpacity, TextInput } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import IsLoggedContext from "../contexts/isLoggedContext";
@@ -115,43 +114,3 @@ const LoginScreen = ({ navigation }: Props) => {
 };
 
 export default LoginScreen;
-
-// const styles = StyleSheet.create({
-//   title: commonStyles.title,
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     padding: 12,
-//     backgroundColor: "#c5e4e3",
-//   },
-//   inputfields: {
-//     fontSize: 20,
-//     height: 50,
-//     borderWidth: 1,
-//     marginBottom: 20,
-//     borderRadius: 5,
-//     padding: 10,
-//     backgroundColor: "white",
-//   },
-//   inputfieldsError: {
-//     backgroundColor: "white",
-//     fontSize: 20,
-//     height: 50,
-//     borderWidth: 1,
-//     marginBottom: 20,
-//     borderRadius: 5,
-//     padding: 10,
-//     borderColor: "red",
-//   },
-//   submitButton: {
-//     alignItems: "center",
-//     backgroundColor: "#45c7c3",
-//     padding: 10,
-//     borderRadius: 5,
-//     marginBottom: 20,
-//   },
-//   text: {
-//     fontSize: 15,
-//     textAlign: "center",
-//   },
-// });

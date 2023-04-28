@@ -45,14 +45,11 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   const executeCode = async () => {
     const code = editorCode;
     const projectId = currentProject.id;
-    console.log("executedCode", code, projectId);
 
     if (code && projectId) {
       const executedCode = (
         await executeCodeAPI.sendCode(code, parseInt(projectId, 10))
       ).data;
-
-      console.log("executedCode", executedCode);
 
       if (executedCode)
         setCurrentProject2({
@@ -67,33 +64,26 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   };
 
   const handleOpenProject = async (projet: IProject) => {
-    console.log("----------Open--------");
     if (currentProject.id === projet.id && routeName === "EditorScreen") {
       setpListVisible(false);
-      console.log("----------Project Already Open--------");
     }
 
     if (currentProject.id !== projet.id && routeName === "EditorScreen") {
       setCurrentProject(projet);
-      console.log("----------Project load in Editor --------");
     }
     if (currentProject.id !== projet.id && routeName !== "EditorScreen") {
       setCurrentProject(projet);
       goNav("EditorScreen");
-      console.log("----------Project load in Editor --------");
     }
   };
 
   const removeProjectShort = (project: IProject) => {
-    console.log("name : ", project.name);
     if (currentProject.id === project.id && routeName === "EditorScreen") {
       const arrRemovedProj = projectsShort.filter((p) => p.id !== project.id);
-      console.log("listproj", arrRemovedProj);
       setpListVisible(false);
       setProjectsShort([]);
       setProjectsShort(arrRemovedProj);
       goNav("ProjectsScreen");
-      console.log("---------- IF--------");
     } else {
       const arrRemovedProj = projectsShort
         .filter((p) => p.id !== project.id)
@@ -101,7 +91,6 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       setProjectsShort([]);
       setProjectsShort(arrRemovedProj);
       if (arrRemovedProj.length === 0) setpListVisible(false);
-      console.log("----------Else--------");
     }
   };
 
@@ -185,7 +174,6 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   );
 
   useEffect(() => {
-    console.log("enter UseEffect", routeName);
     let initButtonList = [
       {
         name: "showProjectList",
@@ -211,7 +199,6 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       );
 
     if (projectsShort.length === 0) {
-      console.log("this case");
       initButtonList = initButtonList.filter(
         (button) => button.name !== "switchProjets"
       );
