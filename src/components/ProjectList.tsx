@@ -26,15 +26,15 @@ const ProjectList = ({ data, goNav }: Props) => {
 
   const handleOpenProject = async (project: IProject) => {
     setCurrentProject(project);
-    addProjectShort(project.id, project.name);
+    addProjectShort(project);
     setCurrentProjectGood(project);
     projectAPI.addView(project.id);
     goNav("EditorScreen");
   };
 
-  const addProjectShort = (id: string, name: string) => {
-    if (projectsShort.find((p) => p.id === id)) return;
-    setProjectsShort([...projectsShort, { id, name }]);
+  const addProjectShort = (projet: IProject) => {
+    if (projectsShort.find((p) => p.id === projet.id)) return;
+    setProjectsShort([...projectsShort, projet]);
   };
 
   return (

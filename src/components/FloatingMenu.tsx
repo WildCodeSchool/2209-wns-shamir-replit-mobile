@@ -3,12 +3,14 @@ import { TouchableOpacity } from "react-native";
 import ProjectContext from "../contexts/projectContext";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { AppStackParamList } from "../Navigation";
 import { useContext } from "react";
-import { BubbleProject } from "./BubbleProject";
+import { BallProjectList } from "./BallProjectList";
 import NewProjectModal from "./NewProjectModal";
 import { floatingMenuStyle } from "../styles/floatingMenu.style";
+import { IProject } from "../interfaces/iProject";
 import { executeCodeAPI } from "../api/executeCodeAPI";
 import CurrentProjectContext from "../contexts/currentProjectContext";
 import EditorCodeContext from "../contexts/editorCodeContext";
@@ -26,8 +28,9 @@ type FloatingMenuProps = {
 };
 
 const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
-  const { projectsShort } = useContext(ProjectContext);
-  const { currentProject, setCurrentProject } = useContext(
+  const { projectsShort, setProjectsShort, setCurrentProject, currentProject } =
+    useContext(ProjectContext);
+  const { setCurrentProject: setCurrentProject2 } = useContext(
     CurrentProjectContext
   );
   const { editorCode } = useContext(EditorCodeContext);
@@ -52,12 +55,54 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       console.log("executedCode", executedCode);
 
       if (executedCode)
-        setCurrentProject({ ...currentProject, executionResult: executedCode });
+        setCurrentProject2({
+          ...currentProject,
+          executionResult: executedCode,
+        });
     }
   };
 
   const handleNav = (nav: keyof AppStackParamList) => {
     goNav(nav);
+  };
+
+  const handleOpenProject = async (projet: IProject) => {
+    console.log("----------Open--------");
+    if (currentProject.id === projet.id && routeName === "EditorScreen") {
+      setpListVisible(false);
+      console.log("----------Project Already Open--------");
+    }
+
+    if (currentProject.id !== projet.id && routeName === "EditorScreen") {
+      setCurrentProject(projet);
+      console.log("----------Project load in Editor --------");
+    }
+    if (currentProject.id !== projet.id && routeName !== "EditorScreen") {
+      setCurrentProject(projet);
+      goNav("EditorScreen");
+      console.log("----------Project load in Editor --------");
+    }
+  };
+
+  const removeProjectShort = (project: IProject) => {
+    console.log("name : ", project.name);
+    if (currentProject.id === project.id && routeName === "EditorScreen") {
+      const arrRemovedProj = projectsShort.filter((p) => p.id !== project.id);
+      console.log("listproj", arrRemovedProj);
+      setpListVisible(false);
+      setProjectsShort([]);
+      setProjectsShort(arrRemovedProj);
+      goNav("ProjectsScreen");
+      console.log("---------- IF--------");
+    } else {
+      const arrRemovedProj = projectsShort
+        .filter((p) => p.id !== project.id)
+        .map((p) => ({ ...p }));
+      setProjectsShort([]);
+      setProjectsShort(arrRemovedProj);
+      if (arrRemovedProj.length === 0) setpListVisible(false);
+      console.log("----------Else--------");
+    }
   };
 
   const style = floatingMenuStyle(BTN_SIZE);
@@ -79,7 +124,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
     </TouchableOpacity>
   );
 
-  const switchProjets = (buttonIndex: number) => (
+  const switchProjets = (buttonIndex: number, pListVisible: boolean) => (
     <TouchableOpacity
       key={buttonIndex}
       onPress={() => setpListVisible(!pListVisible)}
@@ -92,11 +137,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       }}
       activeOpacity={0.5}
     >
-      <Ionicons
-        name="create-outline"
-        size={(BTN_SIZE / 4) * 2.5}
-        color="white"
-      />
+      <Feather name="layers" size={(BTN_SIZE / 4) * 2.5} color="white" />
     </TouchableOpacity>
   );
 
@@ -144,6 +185,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
   );
 
   useEffect(() => {
+    console.log("enter UseEffect", routeName);
     let initButtonList = [
       {
         name: "showProjectList",
@@ -155,7 +197,7 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
       },
       {
         name: "switchProjets",
-        action: switchProjets,
+        action: (indexBtn: number) => switchProjets(indexBtn, pListVisible),
       },
       {
         name: "executeCodeButton",
@@ -168,27 +210,29 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
         (button) => button.name !== "executeCodeButton"
       );
 
-    if (projectsShort.length === 0)
+    if (projectsShort.length === 0) {
+      console.log("this case");
       initButtonList = initButtonList.filter(
         (button) => button.name !== "switchProjets"
       );
+    }
 
     setButtonList(initButtonList);
-  }, [projectsShort, routeName]);
+  }, [projectsShort, routeName, pListVisible]);
 
   return (
     <>
-      {pListVisible == true && (
-        <BubbleProject
-        // pListVisible={pListVisible}
-        // setpListVisible={setpListVisible}
-        />
-      )}
       <NewProjectModal
         createProjectVisible={createProjectVisible}
         setCreateProjectVisible={setCreateProjectVisible}
       />
       {buttonList.map((button, buttonIndex) => button.action(buttonIndex))}
+      {pListVisible == true && (
+        <BallProjectList
+          handleOpenProject={handleOpenProject}
+          removeProjectShort={removeProjectShort}
+        />
+      )}
     </>
   );
 };
