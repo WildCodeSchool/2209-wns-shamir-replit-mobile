@@ -1,6 +1,5 @@
 // Description: Floating menu pour l'écran d'accueil (bouton editeur et projet)
 import { TouchableOpacity } from "react-native";
-import ProjectContext from "../contexts/projectContext";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -12,6 +11,7 @@ import NewProjectModal from "./NewProjectModal";
 import { floatingMenuStyle } from "../styles/floatingMenu.style";
 import { IProject } from "../interfaces/iProject";
 import { executeCodeAPI } from "../api/executeCodeAPI";
+import ProjectContext from "../contexts/projectContext";
 import CurrentProjectContext from "../contexts/currentProjectContext";
 import EditorCodeContext from "../contexts/editorCodeContext";
 
@@ -69,9 +69,11 @@ const FloatingMenu = ({ goNav, routeName }: FloatingMenuProps) => {
     }
 
     if (currentProject.id !== projet.id && routeName === "EditorScreen") {
+      setpListVisible(false);
       setCurrentProject(projet);
     }
     if (currentProject.id !== projet.id && routeName !== "EditorScreen") {
+      setpListVisible(false);
       setCurrentProject(projet);
       goNav("EditorScreen");
     }

@@ -24,7 +24,6 @@ export const executeCodeAPI = {
         code,
         projectId,
       });
-
       return { status, data };
     } catch (e) {
       console.error(e);

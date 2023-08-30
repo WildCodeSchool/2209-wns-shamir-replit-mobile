@@ -41,14 +41,16 @@ const CodeArea = ({
       const res = await updateFileCodeOnline(editorCode, fileId, projectId);
       if (res) updateSaveOnline(true);
     }, 2000);
-    return () => clearTimeout(willUpdate);
+    return () => {
+      clearTimeout(willUpdate);
+    };
   }, [editorCode]);
 
   return (
     <ScrollView style={styles.container}>
       {editorCode !== undefined || editorCode !== "" ? (
         <CodeEditor
-          onChange={(value) => updateEditText(value)}
+          onChange={updateEditText}
           style={styles.editorBody}
           language="javascript"
           syntaxStyle={CodeEditorSyntaxStyles.atomOneDark}

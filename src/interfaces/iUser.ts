@@ -1,9 +1,9 @@
-export type IUser = {
+export type IUser<T = Date> = {
   id: string;
   email: string;
   login: string;
-  date_start_subscription?: Date;
-  date_end_subscription?: Date;
+  date_start_subscription?: T | null;
+  date_end_subscription?: T | null;
 };
 
 export type CreateUser = {

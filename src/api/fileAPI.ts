@@ -38,24 +38,27 @@ export const fileAPI = {
       throw new Error("Erreur getAllFilesByProjectId");
     }
   },
-  updateFileOnline: async ({
-    codeToPush,
-    fileId,
-    projectId,
-    socketId,
-  }: updateFileOnlineProps) => {
+  updateFileOnline: async (
+    codeToPush: string,
+    fileId: number,
+    projectId: number,
+    socketIds: string[],
+    updatedLines: number[]
+  ) => {
     try {
       const api = await graphQLApi();
-      const { data } = await api.mutate({
+      const res = await api.mutate({
         mutation: fileRequest.updateCodeFile,
         variables: {
           contentData: codeToPush,
           fileId: fileId,
           projectId: projectId,
-          socketIds: socketId,
+          socketIds: JSON.stringify(socketIds),
+          updatedLines: JSON.stringify(updatedLines),
         },
       });
-      return JSON.parse(data.updateCodeFile) as updateRes;
+      console.log(res)
+      return JSON.parse(res.data.updateCodeFile) as updateRes;
     } catch (err) {
       console.error(err);
     }

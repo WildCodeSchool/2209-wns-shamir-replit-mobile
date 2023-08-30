@@ -9,6 +9,17 @@ const userRequest = {
       }
     }
   `,
+  GET_ALL_USERS: gql`
+    query Query {
+      getAllUsers {
+        id
+        email
+        login
+        date_end_subscription
+        date_start_subscription
+      }
+    }
+  `,
 };
 
 export { userRequest };

@@ -29,7 +29,7 @@ const defaultOptions: DefaultOptions = {
 };
 
 // On récupère le token de l'utilisateur
-const getToken = async () => (await AsyncStorage.getItem("token")) || "{}";
+const getToken = async () => await AsyncStorage.getItem("token");
 
 // On exporte l'instance d'Apollo Client
 export const api = async () => {

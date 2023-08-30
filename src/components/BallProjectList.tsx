@@ -7,8 +7,8 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import React, { useContext } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import React, { useContext } from "react";
 import ProjectContext from "../contexts/projectContext";
 import { AntDesign } from "@expo/vector-icons";
 import { BallProject } from "./BallProject";
@@ -27,17 +27,14 @@ const BallProjectList = ({
   handleOpenProject,
   removeProjectShort,
 }: BallProjectListProps) => {
-  // Liste des projets en cours
   const { projectsShort } = useContext(ProjectContext);
 
-  // item selectionné
   const binPosition = useSharedValue({ x: 0, y: 0 });
 
   const ballPressed = useSharedValue<boolean[]>(
     Array(projectsShort.length).fill(false)
   );
 
-  // bin animated style
   const binAnimated = useAnimatedStyle(() => ({
     opacity: ballPressed.value.includes(true)
       ? withTiming(1)

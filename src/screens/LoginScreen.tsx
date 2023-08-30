@@ -6,6 +6,9 @@ import { LoginStackParamList } from "../Navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authAPI } from "../api/authAPI";
 import { commonStyles } from "../styles/common.style";
+import { userAPI } from "../api/userAPI";
+import UserContext from "../contexts/userContext";
+import { IUser } from "../interfaces/iUser";
 
 type Props = StackScreenProps<LoginStackParamList, "LoginScreen">;
 
@@ -16,6 +19,8 @@ const LoginScreen = ({ navigation }: Props) => {
   const [fieldPassword, setFieldPassword] = useState("");
   const [emailErrors, setEmailErrors] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState(false);
+
+  const { setUser } = useContext(UserContext);
 
   const handleConnect = async () => {
     try {
@@ -31,6 +36,11 @@ const LoginScreen = ({ navigation }: Props) => {
         if (res !== undefined) {
           await AsyncStorage.setItem("token", res.token);
           await AsyncStorage.setItem("userId", res.userId.toString());
+          const user: IUser = (await userAPI.getAll()).filter(
+            (u) => u.id === user.toString()
+          )[0];
+
+          setUser({ ...user, id: res.userId.toString() });
 
           setIsLogged(true);
         } else {

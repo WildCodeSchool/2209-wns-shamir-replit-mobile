@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import IsLoggedContext from "../contexts/isLoggedContext";
 import { modalStyles } from "../styles/settingModal.style";
+import UserContext from "../contexts/userContext";
+import ProjectContext from "../contexts/projectContext";
 
 type SettingModalProps = {
   settingsVisible: boolean;
@@ -15,9 +17,13 @@ const SettingModal = ({
   setSettingsVisible,
 }: SettingModalProps) => {
   const { setIsLogged } = useContext(IsLoggedContext);
-
+  const {  setUser } = useContext(UserContext);
+  const { setCurrentProject} = useContext(ProjectContext)
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+
+    setUser({});
     setIsLogged(false);
   };
 
